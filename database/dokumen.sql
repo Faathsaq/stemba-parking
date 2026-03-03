@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2026 at 06:47 AM
+-- Generation Time: Mar 03, 2026 at 03:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,20 +18,22 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `stembareport`
+-- Database: `stembaaspirasi`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `report_images`
+-- Table structure for table `dokumen`
 --
 
-CREATE TABLE `report_images` (
+CREATE TABLE `dokumen` (
   `id` int(11) NOT NULL,
-  `report_id` int(11) DEFAULT NULL,
-  `image_name` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `kendaraan_id` int(11) NOT NULL,
+  `foto_kendaraan` varchar(255) DEFAULT NULL,
+  `foto_sim` varchar(255) DEFAULT NULL,
+  `kartu_pelajar` varchar(255) DEFAULT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -39,20 +41,20 @@ CREATE TABLE `report_images` (
 --
 
 --
--- Indexes for table `report_images`
+-- Indexes for table `dokumen`
 --
-ALTER TABLE `report_images`
+ALTER TABLE `dokumen`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `report_id` (`report_id`);
+  ADD KEY `kendaraan_id` (`kendaraan_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `report_images`
+-- AUTO_INCREMENT for table `dokumen`
 --
-ALTER TABLE `report_images`
+ALTER TABLE `dokumen`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -60,10 +62,10 @@ ALTER TABLE `report_images`
 --
 
 --
--- Constraints for table `report_images`
+-- Constraints for table `dokumen`
 --
-ALTER TABLE `report_images`
-  ADD CONSTRAINT `report_images_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`) ON DELETE CASCADE;
+ALTER TABLE `dokumen`
+  ADD CONSTRAINT `dokumen_ibfk_1` FOREIGN KEY (`kendaraan_id`) REFERENCES `kendaraan` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
