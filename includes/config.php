@@ -4,9 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $host = 'localhost';
-$dbname = 'stembaaspirasi';
-$username = 'root';
-$password = '';
+$dbname = 'stemba_parking';
+$username = 'stemba_user';
+$password = 'stemba123';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
