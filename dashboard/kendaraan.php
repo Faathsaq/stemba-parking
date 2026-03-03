@@ -483,7 +483,10 @@ foreach ($stats as $k => $v) $stats[$k] = (int)$v;
 
     <?php foreach ($kendaraan_list as $k):
       $icon = match($k['jenis'] ?? '') {
-        'motor'  => '🏍️', 'mobil' => '🚗', => '🚲', default => '🚗'
+        'motor'  => '🏍️',
+        'mobil'  => '🚗',
+        'sepeda' => '🚲',
+        default  => '🚗',
       };
       $badge_class = match($k['status']) {
         'disetujui' => 'badge-ok',
