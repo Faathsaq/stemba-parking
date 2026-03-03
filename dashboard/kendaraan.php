@@ -178,7 +178,7 @@ foreach ($stats as $k => $v) $stats[$k] = (int)$v;
   .ssi-ok    .ssi-icon i  { color: var(--green);   font-size: 14px; }
   .ssi-reject .ssi-icon i { color: var(--red);     font-size: 14px; }
 
-  .ssi-info {}
+  .ssi-info 
   .ssi-num { font-family: var(--font-serif); font-size: 30px; font-weight: 400; line-height: 1; display: block; }
   .ssi-total  .ssi-num { color: var(--fg); }
   .ssi-wait   .ssi-num { color: var(--yellow); }
