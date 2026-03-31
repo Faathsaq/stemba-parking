@@ -67,63 +67,86 @@ $jurusanList = [
 
   <style>
   /* ============================================================
-     EDIT PROFILE — DARK + AMBER · GLASSMORPHISM
+     EDIT PROFILE — ALABASTER + BLUE SLATE
      ============================================================ */
   :root {
     --font-serif:     'Instrument Serif', Georgia, serif;
     --font-sans:      'Outfit', sans-serif;
-    --accent:         #f59e0b;
-    --accent-dim:     rgba(245,158,11,0.18);
-    --accent-glow:    rgba(245,158,11,0.07);
-    --accent-border:  rgba(245,158,11,0.28);
-    --bg:             #0d0d0d;
-    --fg:             #ffffff;
-    --fg-mid:         rgba(255,255,255,0.55);
-    --fg-low:         rgba(255,255,255,0.22);
-    --border:         rgba(255,255,255,0.07);
-    --glass-bg:       rgba(255,255,255,0.035);
-    --glass-bg-hover: rgba(255,255,255,0.055);
+
+    /* Accent: Blue Slate — sama dengan navbar & about */
+    --accent:         #536878;
+    --accent-light:   #6b8394;
+    --accent-dim:     rgba(83,104,120,0.18);
+    --accent-glow:    rgba(83,104,120,0.07);
+    --accent-border:  rgba(83,104,120,0.28);
+
+    /* Glass: ivory/alabaster */
+    --bg-glass:       rgba(255,253,247,0.75);
+    --bg-base:        #fffdf7;
+
+    /* Borders — sama dengan about */
+    --border:         rgba(10,10,10,0.09);
+    --border-acc:     rgba(83,104,120,0.28);
+
+    /* Foreground — sama dengan about */
+    --fg:             #0a0a0a;
+    --fg-mid:         rgba(10,10,10,0.55);
+    --fg-low:         rgba(10,10,10,0.35);
+
+    /* Surface */
+    --surface:        #f5f2ea;
+
+    /* Slate tones — untuk CTA button */
+    --slate-100:      #7a94a6;
+    --slate-200:      #536878;
+    --slate-300:      #3d5060;
+
+    --nav-h: 68px;
+    --blur:  24px;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
 
   html, body {
     margin: 0; padding: 0;
-    background-color: var(--bg);
+    background-color: var(--bg-base);
     color: var(--fg);
     font-family: var(--font-sans);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  /* noise */
+  /* subtle paper texture */
   body::before {
     content: '';
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
     background-size: 180px 180px;
+    opacity: 0.5;
   }
 
-  /* ambient glow */
+  /* ambient slate glows */
   .ep-glow-1 {
     position: fixed; pointer-events: none; z-index: 0;
     top: -200px; left: 50%; transform: translateX(-50%);
-    width: 700px; height: 400px; border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(245,158,11,0.07) 0%, transparent 65%);
-    filter: blur(60px);
+    width: 900px; height: 500px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(83,104,120,0.08) 0%, transparent 65%);
+    filter: blur(40px);
   }
   .ep-glow-2 {
     position: fixed; pointer-events: none; z-index: 0;
-    bottom: -100px; right: -100px;
-    width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(245,158,11,0.04) 0%, transparent 65%);
-    filter: blur(80px);
+    bottom: -100px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(83,104,120,0.05) 0%, transparent 65%);
+    filter: blur(60px);
   }
 
   /* ── PAGE LAYOUT ─────────────────────────────────────────── */
   .ep-page {
     position: relative; z-index: 1;
     min-height: 100vh;
-    padding: 100px 24px 60px;
+    padding: calc(var(--nav-h) + 40px) 24px 60px;
     display: flex; flex-direction: column; align-items: center;
   }
 
@@ -139,9 +162,7 @@ $jurusanList = [
     transition: color 0.2s;
   }
   .ep-breadcrumb a:hover { color: var(--accent); }
-  .ep-breadcrumb span {
-    font-size: 11px; color: var(--fg-low);
-  }
+  .ep-breadcrumb span { font-size: 11px; color: var(--fg-low); }
   .ep-breadcrumb .ep-bc-cur {
     font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--accent);
@@ -150,20 +171,37 @@ $jurusanList = [
   /* ── MAIN CARD ───────────────────────────────────────────── */
   .ep-card {
     width: 100%; max-width: 660px;
-    background: var(--glass-bg);
+    background: var(--bg-glass);
+    backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
     border: 1px solid var(--border);
-    border-top: 1px solid var(--accent-border);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-radius: 6px;
     position: relative; overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9),
+      0 4px 24px rgba(83,104,120,0.08);
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
 
-  /* top amber line */
+  .ep-card:hover {
+    border-color: var(--border-acc);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.95),
+      0 20px 48px rgba(83,104,120,0.12),
+      0 4px 16px rgba(83,104,120,0.06);
+  }
+
+  /* top slate glint */
   .ep-card::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.5;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(83,104,120,0.30) 25%,
+      rgba(83,104,120,0.60) 50%,
+      rgba(83,104,120,0.30) 75%,
+      transparent 100%);
+    pointer-events: none;
   }
 
   /* ── CARD HEADER ─────────────────────────────────────────── */
@@ -171,6 +209,7 @@ $jurusanList = [
     padding: 32px 36px 28px;
     border-bottom: 1px solid var(--border);
     display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    background: linear-gradient(180deg, rgba(83,104,120,0.05) 0%, transparent 100%);
   }
   .ep-header-tag {
     font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
@@ -192,8 +231,9 @@ $jurusanList = [
   .ep-user-badge {
     display: flex; align-items: center; gap: 12px;
     padding: 12px 16px;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,253,247,0.5);
     border: 1px solid var(--border); flex-shrink: 0;
+    border-radius: 4px;
   }
   .ep-user-avatar {
     width: 44px; height: 44px; border-radius: 3px;
@@ -226,7 +266,6 @@ $jurusanList = [
     display: flex; gap: 20px; align-items: flex-start; margin-bottom: 28px;
   }
 
-  /* current avatar display */
   .ep-current-avatar {
     width: 80px; height: 80px; flex-shrink: 0; border-radius: 4px;
     border: 1.5px solid var(--accent-border);
@@ -238,36 +277,39 @@ $jurusanList = [
   .ep-current-avatar i   { font-size: 28px; color: var(--accent); }
   .ep-avatar-overlay {
     position: absolute; inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: rgba(10,10,10,0.40);
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transition: opacity 0.2s; cursor: pointer;
   }
   .ep-current-avatar:hover .ep-avatar-overlay { opacity: 1; }
-  .ep-avatar-overlay i { font-size: 18px; color: var(--accent); }
+  .ep-avatar-overlay i { font-size: 18px; color: #fff; }
 
   .ep-photo-info { flex: 1; }
   .ep-photo-title { font-size: 13px; font-weight: 700; color: var(--fg); margin-bottom: 4px; }
   .ep-photo-hint  { font-size: 11px; color: var(--fg-low); line-height: 1.6; margin-bottom: 12px; }
 
-  /* file input styled */
   .ep-file-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 9px 18px; border-radius: 2px; cursor: pointer;
+    padding: 9px 18px; border-radius: 4px; cursor: pointer;
     font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--fg-mid);
     border: 1px solid var(--border);
-    background: transparent;
+    background: rgba(255,253,247,0.5);
     transition: all 0.2s;
   }
-  .ep-file-btn:hover { border-color: var(--accent-border); color: var(--accent); background: var(--accent-glow); }
+  .ep-file-btn:hover {
+    border-color: var(--accent-border); color: var(--accent);
+    background: var(--accent-glow);
+  }
   .ep-file-btn i { font-size: 11px; }
   #fotoInput { display: none; }
 
   /* cropper container */
   .ep-cropper-wrap {
     display: none; margin-top: 20px;
-    border: 1px solid var(--border); background: rgba(0,0,0,0.3); overflow: hidden;
-    max-height: 320px;
+    border: 1px solid var(--border);
+    background: rgba(83,104,120,0.05);
+    overflow: hidden; max-height: 320px; border-radius: 4px;
   }
   .ep-cropper-wrap.active { display: block; }
   .ep-cropper-wrap img { max-width: 100%; display: block; }
@@ -276,38 +318,38 @@ $jurusanList = [
   .ep-field { margin-bottom: 20px; }
   .ep-label {
     display: block; font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--fg-low); margin-bottom: 8px;
+    text-transform: uppercase; color: var(--fg-mid); margin-bottom: 8px;
   }
 
   .ep-select {
     width: 100%; padding: 12px 16px;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,253,247,0.50);
     border: 1px solid var(--border);
     color: var(--fg); font-family: var(--font-sans); font-size: 14px;
-    border-radius: 2px; outline: none; cursor: pointer;
+    border-radius: 4px; outline: none; cursor: pointer;
     appearance: none; -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(10,10,10,0.35)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: right 14px center;
     padding-right: 36px;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
   .ep-select:focus {
     border-color: var(--accent-border);
-    background-color: rgba(245,158,11,0.04);
-    box-shadow: 0 0 0 3px rgba(245,158,11,0.08);
+    background-color: var(--accent-glow);
+    box-shadow: 0 0 0 3px rgba(83,104,120,0.08);
   }
-  .ep-select option { background: #1a1a1a; color: var(--fg); }
+  .ep-select option { background: #f5f2ea; color: var(--fg); }
 
   /* ── ALERT ───────────────────────────────────────────────── */
   .ep-alert {
     padding: 14px 18px; margin-bottom: 24px;
-    border-radius: 2px; display: flex; align-items: center; gap: 12px;
+    border-radius: 4px; display: flex; align-items: center; gap: 12px;
     font-size: 13px; font-weight: 600;
   }
   .ep-alert-success {
-    background: rgba(134,239,172,0.08);
-    border: 1px solid rgba(134,239,172,0.22);
-    color: #86efac;
+    background: rgba(72,140,96,0.08);
+    border: 1px solid rgba(72,140,96,0.25);
+    color: #2d6b46;
   }
   .ep-alert-success i { font-size: 14px; }
 
@@ -316,32 +358,38 @@ $jurusanList = [
     padding: 24px 36px;
     border-top: 1px solid var(--border);
     display: flex; gap: 12px; align-items: center;
+    background: linear-gradient(0deg, rgba(83,104,120,0.04) 0%, transparent 100%);
   }
 
-  /* amber submit */
+  /* slate submit button */
   .ep-btn-amber {
     flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    background: var(--accent); color: #0d0d0d;
-    padding: 14px 28px; border-radius: 2px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--slate-100) 0%, var(--slate-200) 60%, var(--slate-300) 100%);
+    color: #fff;
+    padding: 14px 28px; border-radius: 4px;
+    border: 1px solid rgba(40,60,80,0.20);
+    cursor: pointer;
     font-family: var(--font-sans); font-weight: 800;
     font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 10px rgba(83,104,120,0.20), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 0.22s, box-shadow 0.22s, filter 0.22s;
   }
   .ep-btn-amber:hover {
-    background: #fbbf24;
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(245,158,11,0.28);
+    filter: brightness(1.08);
+    box-shadow: 0 8px 28px rgba(83,104,120,0.30), inset 0 1px 0 rgba(255,255,255,0.22);
   }
   .ep-btn-amber i { font-size: 11px; }
 
   /* ghost back */
   .ep-btn-ghost {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 13px 22px; border-radius: 2px;
+    padding: 13px 22px; border-radius: 4px;
     font-family: var(--font-sans); font-size: 12px; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--fg-mid); text-decoration: none;
-    border: 1px solid var(--border); background: transparent;
+    border: 1px solid var(--border);
+    background: rgba(255,253,247,0.5);
     transition: all 0.2s;
   }
   .ep-btn-ghost:hover {
@@ -358,13 +406,16 @@ $jurusanList = [
   }
   .ep-info-item {
     flex: 1; padding: 14px 18px;
-    background: var(--glass-bg); border: 1px solid var(--border);
+    background: var(--bg-glass);
+    border: 1px solid var(--border);
+    border-radius: 4px;
     display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8);
   }
   .ep-info-item i { font-size: 11px; color: var(--accent); flex-shrink: 0; }
-  .ep-info-item span { font-size: 11px; color: var(--fg-low); line-height: 1.5; }
+  .ep-info-item span { font-size: 11px; color: var(--fg-mid); line-height: 1.5; font-weight: 500; }
 
-  /* ── RESPONSIVE ──────────────────────────────────────────── */
+  /* ── RESPONSIVE ───────────────────────────────────────────── */
   @media (max-width: 640px) {
     .ep-card-header { flex-direction: column; padding: 24px; }
     .ep-card-body   { padding: 24px; }

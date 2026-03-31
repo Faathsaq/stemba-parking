@@ -1,14 +1,14 @@
 <?php
-// sections/alur-pendaftaran.php — v2
+// sections/alur-pendaftaran.php — v3 ALABASTER EDITION
 // FRAGMENT: jangan tambahkan <html>, <head>, atau <body> di file ini.
 // Section Alur Pendaftaran — Stemba Parking · SMKN 7 Semarang
-// Konsep: Dark + Amber · Editorial · Timeline Horizontal · CSS + IO Animation
+// Konsep: Alabaster + Blue Slate · Editorial · Timeline Horizontal · CSS + IO Animation
 // Dependensi: Bootstrap 5, AOS, Font Awesome 6, Google Fonts
 ?>
 
 <style>
 /* ============================================================
-   SECTION DIVIDER — pemisah antara panduan & alur
+   SECTION DIVIDER
    ============================================================ */
 .al-section-divider {
   position: relative;
@@ -22,40 +22,39 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(83,104,120,0.35), transparent);
 }
-/* label di tengah divider */
 .al-divider-label {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background: #0d0d0d;
-  border: 1px solid rgba(245,158,11,0.3);
+  background: #fffdf7;
+  border: 1px solid rgba(83,104,120,0.3);
   padding: 6px 20px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-size: 9px; font-weight: 800;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(245,158,11,0.7);
+  color: rgba(83,104,120,0.7);
   white-space: nowrap;
 }
 
 /* ============================================================
-   ALUR PENDAFTARAN — DARK + AMBER · HORIZONTAL TIMELINE
+   ALUR PENDAFTARAN — ALABASTER + BLUE SLATE · HORIZONTAL TIMELINE
    ============================================================ */
 
 .al {
-  background: #111;          /* sedikit lebih terang dari panduan (#0d0d0d) biar ada beda */
+  background: #f5f2ea;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   position: relative;
   overflow: hidden;
-  --al-accent:      #f59e0b;
-  --al-accent-dim:  rgba(245,158,11,0.18);
-  --al-accent-glow: rgba(245,158,11,0.07);
-  --al-border:      rgba(255,255,255,0.07);
-  --al-border-acc:  rgba(245,158,11,0.28);
-  --al-fg:          #ffffff;
-  --al-fg-mid:      rgba(255,255,255,0.48);
-  --al-fg-low:      rgba(255,255,255,0.2);
+  --al-accent:      #536878;
+  --al-accent-dim:  rgba(83,104,120,0.18);
+  --al-accent-glow: rgba(83,104,120,0.07);
+  --al-border:      rgba(10,10,10,0.09);
+  --al-border-acc:  rgba(83,104,120,0.28);
+  --al-fg:          #0a0a0a;
+  --al-fg-mid:      rgba(10,10,10,0.55);
+  --al-fg-low:      rgba(10,10,10,0.35);
 }
 
 /* ── HEADER ──────────────────────────────────────────────────── */
@@ -63,6 +62,7 @@
   padding: 80px 0 0;
   border-bottom: 1px solid var(--al-border);
   position: relative; z-index: 2;
+  background: #fffdf7;
 }
 
 .al-bg-num {
@@ -71,14 +71,13 @@
   font-size: clamp(200px, 28vw, 380px);
   font-weight: 400; line-height: 0.85; letter-spacing: -0.04em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(245,158,11,0.05);
+  -webkit-text-stroke: 1px rgba(83,104,120,0.05);
   pointer-events: none; user-select: none; z-index: 0;
   will-change: transform;
 }
 
 .al-header .container { position: relative; z-index: 2; }
 
-/* section identity bar — paling atas, biar orang langsung tahu ini apa */
 .al-identity-bar {
   display: flex; align-items: center; gap: 16px;
   padding-bottom: 28px;
@@ -122,7 +121,6 @@
 .al-header-aside p { font-size: 13.5px; line-height: 1.8; color: var(--al-fg-mid); margin: 0; }
 .al-header-aside strong { color: var(--al-fg); font-weight: 600; }
 
-/* step count strip */
 .al-step-strip { display: flex; border-top: 1px solid var(--al-border); }
 .al-step-strip-item {
   flex: 1; padding: 18px 0;
@@ -133,7 +131,7 @@
 .al-step-strip-item:last-child { border-right: none; padding-left: 0; }
 .al-step-strip-item:first-child { padding-right: 0; }
 .al-step-strip-item + .al-step-strip-item { padding-left: 24px; }
-.al-step-strip-item:hover { background: rgba(245,158,11,0.03); }
+.al-step-strip-item:hover { background: rgba(83,104,120,0.04); }
 .al-strip-num {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: 28px; font-weight: 400; color: var(--al-accent);
@@ -148,10 +146,9 @@
 .al-timeline-section {
   padding: 80px 0 80px;
   position: relative; z-index: 2;
-  background: #111;
+  background: #f5f2ea;
 }
 
-/* the line sits at vertical center of dots */
 .al-progress-wrap { position: relative; }
 
 .al-line-bg {
@@ -169,11 +166,10 @@
   left: calc(10%);
   height: 1px;
   width: 0%;
-  background: linear-gradient(90deg, var(--al-accent), #fde68a);
+  background: linear-gradient(90deg, var(--al-accent), #8aa0af);
   z-index: 1;
-  /* slower line — 2.4s */
   transition: width 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 10px rgba(245,158,11,0.35);
+  box-shadow: 0 0 8px rgba(83,104,120,0.25);
 }
 .al-line-fill.al-animated { width: 80%; }
 
@@ -189,38 +185,31 @@
   display: flex; flex-direction: column; align-items: center;
   position: relative; z-index: 2;
   cursor: default;
-
-  /* initial hidden state */
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.55s ease, transform 0.55s ease;
 }
 .al-step.al-visible { opacity: 1; transform: translateY(0); }
 
-/* stagger via JS data attr — no nth-child needed */
-
-/* dot container */
 .al-dot-wrap {
   width: 56px; height: 56px;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 24px; position: relative;
 }
 
-/* outer ring — expands on done */
 .al-dot-ring {
   position: absolute; inset: -7px;
   border: 1px solid transparent;
   transition: border-color 0.4s ease, inset 0.4s ease;
 }
 .al-step.al-done .al-dot-ring {
-  border-color: rgba(245,158,11,0.22);
+  border-color: rgba(83,104,120,0.22);
   inset: -5px;
 }
 
-/* pulsing glow ring — only on done state */
 .al-dot-glow {
   position: absolute; inset: -12px; border-radius: 0;
-  background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(83,104,120,0.10) 0%, transparent 70%);
   opacity: 0;
   transform: scale(0.7);
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -230,40 +219,36 @@
 .al-dot {
   width: 56px; height: 56px;
   border: 1px solid var(--al-border);
-  background: #111;
+  background: #fffdf7;
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.4s, background 0.4s, transform 0.3s, box-shadow 0.4s;
   position: relative; z-index: 2;
 }
 
-/* icon starts dim, pops when done */
 .al-dot i {
   font-size: 20px;
   color: var(--al-fg-low);
   transition: color 0.4s, transform 0.4s;
 }
 
-/* ── DONE STATE — icon + dot lights up ── */
 .al-step.al-done .al-dot {
   border-color: var(--al-accent);
-  background: rgba(245,158,11,0.08);
-  box-shadow: 0 0 22px rgba(245,158,11,0.18), inset 0 0 12px rgba(245,158,11,0.06);
+  background: rgba(83,104,120,0.07);
+  box-shadow: 0 0 18px rgba(83,104,120,0.15), inset 0 0 10px rgba(83,104,120,0.05);
 }
 .al-step.al-done .al-dot i {
   color: var(--al-accent);
-  transform: scale(1.15);   /* icon "pop" saat menyala */
+  transform: scale(1.15);
 }
 
-/* hover on top of done */
 .al-step:hover .al-dot {
   border-color: var(--al-accent);
   background: var(--al-accent-dim);
   transform: translateY(-5px);
-  box-shadow: 0 10px 28px rgba(245,158,11,0.22);
+  box-shadow: 0 10px 28px rgba(83,104,120,0.18);
 }
 .al-step:hover .al-dot i { color: var(--al-accent); transform: scale(1.2) rotate(-8deg); }
 
-/* step text */
 .al-step-content { text-align: center; padding: 0 10px; }
 .al-step-num {
   font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
@@ -274,7 +259,7 @@
 .al-step-label {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: clamp(14px, 1.3vw, 17px); font-weight: 400;
-  color: rgba(255,255,255,0.55); line-height: 1.2; margin-bottom: 8px;
+  color: rgba(10,10,10,0.38); line-height: 1.2; margin-bottom: 8px;
   letter-spacing: -0.01em;
   transition: color 0.4s;
 }
@@ -282,16 +267,15 @@
 .al-step-desc { font-size: 11.5px; line-height: 1.7; color: var(--al-fg-low); margin: 0; transition: color 0.4s; }
 .al-step.al-done .al-step-desc { color: var(--al-fg-mid); }
 
-/* connector arrow between steps (decorative) */
 .al-step-arrow {
   position: absolute;
-  top: 17px;  /* center of dot */
+  top: 17px;
   right: -6px;
-  font-size: 9px; color: rgba(245,158,11,0.3);
+  font-size: 9px; color: rgba(83,104,120,0.3);
   z-index: 3; pointer-events: none;
   transition: color 0.4s;
 }
-.al-step.al-done .al-step-arrow { color: rgba(245,158,11,0.7); }
+.al-step.al-done .al-step-arrow { color: rgba(83,104,120,0.7); }
 .al-step:last-child .al-step-arrow { display: none; }
 
 /* ── PROGRESS TEXT below timeline ── */
@@ -311,10 +295,9 @@
 }
 .al-prog-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--al-accent), #fde68a);
+  background: linear-gradient(90deg, var(--al-accent), #8aa0af);
   width: 0%;
   transition: width 2.8s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 8px rgba(245,158,11,0.4);
 }
 .al-prog-fill.al-animated { width: 100%; }
 .al-progress-label-right {
@@ -326,7 +309,7 @@
 /* ── DETAIL CARDS ────────────────────────────────────────────── */
 .al-cards-section {
   padding: 0 0 80px;
-  background: #111;
+  background: #f5f2ea;
   border-top: 1px solid var(--al-border);
 }
 .al-cards-header {
@@ -345,14 +328,14 @@
 }
 .al-card {
   padding: 28px 22px; border-right: 1px solid var(--al-border);
-  background: transparent; transition: background 0.22s; cursor: default; position: relative;
+  background: #fffdf7; transition: background 0.22s; cursor: default; position: relative;
 }
 .al-card:last-child { border-right: none; }
 .al-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 0;
   background: var(--al-accent); transition: height 0.22s ease;
 }
-.al-card:hover { background: rgba(245,158,11,0.03); }
+.al-card:hover { background: rgba(83,104,120,0.04); }
 .al-card:hover::before { height: 2px; }
 
 .al-card-step {
@@ -371,9 +354,8 @@
 .al-card-title { font-size: 13px; font-weight: 700; color: var(--al-fg); margin-bottom: 8px; line-height: 1.3; }
 .al-card-desc  { font-size: 11.5px; line-height: 1.72; color: var(--al-fg-mid); margin: 0; }
 
-/* stiker card special */
 .al-card:last-child {
-  background: rgba(245,158,11,0.04); border-right: none;
+  background: rgba(83,104,120,0.05); border-right: none;
   border: 1px solid var(--al-border-acc); border-top: none;
 }
 .al-stiker-badge {
@@ -387,7 +369,7 @@
 
 /* ── CTA ──────────────────────────────────────────────────────── */
 .al-cta {
-  padding: 56px 0 100px; background: #111;
+  padding: 56px 0 100px; background: #fffdf7;
   border-top: 1px solid var(--al-border);
   display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
 }
@@ -400,26 +382,27 @@
   font-size: clamp(26px, 3.5vw, 46px); font-weight: 400;
   color: var(--al-fg); line-height: 1; letter-spacing: -0.02em; margin: 0;
 }
-.al-cta-title em { font-style: italic; color: rgba(255,255,255,0.28); }
+.al-cta-title em { font-style: italic; color: rgba(10,10,10,0.28); }
 
-.btn-al-amber {
+/* PRIMARY button — Onyx fill */
+.btn-al-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--al-accent); color: #0d0d0d; padding: 15px 32px; border-radius: 3px;
+  background: var(--al-fg); color: #fffdf7; padding: 15px 32px; border-radius: 6px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-weight: 800; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
   text-decoration: none; white-space: nowrap; flex-shrink: 0;
-  transition: background 0.2s, transform 0.22s, box-shadow 0.22s;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.22s;
 }
-.btn-al-amber:hover {
-  background: #fbbf24; color: #0d0d0d; text-decoration: none;
-  transform: translateY(-3px); box-shadow: 0 14px 40px rgba(245,158,11,0.28);
+.btn-al-primary:hover {
+  background: var(--al-accent); color: #fff; text-decoration: none;
+  transform: translateY(-3px);
 }
-.btn-al-amber i { transition: transform 0.22s; font-size: 11px; }
-.btn-al-amber:hover i { transform: translateX(4px); }
+.btn-al-primary i { transition: transform 0.22s; font-size: 11px; }
+.btn-al-primary:hover i { transform: translateX(4px); }
 
 .btn-al-ghost {
   display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: var(--al-fg-mid); padding: 14px 24px; border-radius: 3px;
+  background: transparent; color: var(--al-fg-mid); padding: 14px 24px; border-radius: 6px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
   text-decoration: none; white-space: nowrap; border: 1px solid var(--al-border);
@@ -466,12 +449,12 @@
   .al-step { opacity: 1 !important; transform: none !important; transition: none !important; }
   .al-step.al-done .al-dot i { transform: none !important; }
   .al-line-fill, .al-prog-fill { transition: none !important; }
-  .al-dot, .al-card-icon, .btn-al-amber { transition: none !important; }
-  .al-step:hover .al-dot, .btn-al-amber:hover { transform: none !important; }
+  .al-dot, .al-card-icon, .btn-al-primary { transition: none !important; }
+  .al-step:hover .al-dot, .btn-al-primary:hover { transform: none !important; }
 }
 </style>
 
-<!-- ══ SECTION DIVIDER — pemisah panduan & alur ══════════════ -->
+<!-- ══ SECTION DIVIDER ══════════════════════════════════════ -->
 <div class="al-section-divider" aria-hidden="true">
   <span class="al-divider-label">
     <i class="fa-solid fa-chevron-down" style="font-size:8px;margin-right:6px;"></i>
@@ -486,7 +469,6 @@
     <div class="al-bg-num" aria-hidden="true" id="al-bgnum">04</div>
     <div class="container">
 
-      <!-- identity bar — section labeling yang jelas -->
       <div class="al-identity-bar" data-aos="fade-up" data-aos-duration="500">
         <span class="al-identity-tag">
           <i class="fa-solid fa-route"></i>
@@ -630,7 +612,6 @@
 
         </div><!-- /.al-track -->
 
-        <!-- progress label below timeline -->
         <div class="al-progress-label" data-aos="fade-up" data-aos-delay="80" data-aos-duration="500">
           <span class="al-progress-label-left">
             <i class="fa-solid fa-circle-info"></i>
@@ -704,23 +685,6 @@
     </div>
   </div>
 
-  <!-- ── CTA ──────────────────────────────────────────────────── -->
-  <div class="container">
-    <div class="al-cta" data-aos="fade-up" data-aos-duration="600">
-      <div>
-        <span class="al-cta-overline">Siap Mulai?</span>
-        <h3 class="al-cta-title">Lima langkah,<br><em>satu tujuan.</em></h3>
-      </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a class="btn-al-amber" href="register.php">
-          Mulai Daftar <i class="fa-solid fa-arrow-right"></i>
-        </a>
-        <a class="btn-al-ghost" href="#panduan">
-          <i class="fa-solid fa-book-open"></i> Baca Panduan
-        </a>
-      </div>
-    </div>
-  </div>
 
 </section>
 
@@ -729,7 +693,6 @@
   'use strict';
   var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── parallax bg number ── */
   if (!noMotion) {
     var bgNum   = document.getElementById('al-bgnum');
     var ticking = false;
@@ -744,7 +707,6 @@
     }, { passive: true });
   }
 
-  /* ── timeline: line fill + sequential step reveal ── */
   var track    = document.getElementById('al-track');
   var lineFill = document.getElementById('al-line');
   var progFill = document.getElementById('al-prog');
@@ -753,22 +715,19 @@
   var steps = Array.prototype.slice.call(track.querySelectorAll('.al-step'));
 
   function animateTimeline() {
-    /* 1. start line immediately */
     if (lineFill && !noMotion) lineFill.classList.add('al-animated');
     if (progFill && !noMotion) progFill.classList.add('al-animated');
 
-    /* 2. reveal + "done" each step using data-delay — line reaches icon THEN it lights up */
     steps.forEach(function (step) {
       var delay    = parseInt(step.getAttribute('data-delay') || '0', 10);
-      var revDelay = noMotion ? 0 : delay;            /* same as line position delay */
-      var doneDelay= noMotion ? 0 : delay + 260;      /* icon pop 260ms after line arrives */
+      var revDelay = noMotion ? 0 : delay;
+      var doneDelay= noMotion ? 0 : delay + 260;
 
       setTimeout(function () { step.classList.add('al-visible'); }, revDelay);
       setTimeout(function () { step.classList.add('al-done');    }, doneDelay);
     });
   }
 
-  /* trigger via IntersectionObserver */
   if ('IntersectionObserver' in window && !noMotion) {
     var obs = new IntersectionObserver(function (entries, o) {
       entries.forEach(function (en) {

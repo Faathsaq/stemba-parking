@@ -1,27 +1,27 @@
 <?php
-// sections/kontak.php
+// sections/kontak.php — v2 ALABASTER EDITION
 // FRAGMENT: jangan tambahkan <html>, <head>, atau <body> di file ini.
 // Section Kontak — Stemba Parking · SMKN 7 Semarang
-// Konsep: Minimalis · Dark + Amber · No Frills
+// Konsep: Minimalis · Alabaster + Blue Slate
 // Dependensi: Bootstrap 5, AOS, Font Awesome 6, Google Fonts
 ?>
 
 <style>
 /* ============================================================
-   KONTAK — MINIMALIS · DARK + AMBER
+   KONTAK — MINIMALIS · ALABASTER + BLUE SLATE
    ============================================================ */
 
 .kt {
-  background: #0d0d0d;
+  background: #fffdf7;
   font-family: var(--font-sans, 'Outfit', sans-serif);
-  --kt-accent:      #f59e0b;
-  --kt-accent-dim:  rgba(245,158,11,0.18);
-  --kt-accent-glow: rgba(245,158,11,0.07);
-  --kt-border:      rgba(255,255,255,0.07);
-  --kt-border-acc:  rgba(245,158,11,0.28);
-  --kt-fg:          #ffffff;
-  --kt-fg-mid:      rgba(255,255,255,0.48);
-  --kt-fg-low:      rgba(255,255,255,0.2);
+  --kt-accent:      #536878;
+  --kt-accent-dim:  rgba(83,104,120,0.18);
+  --kt-accent-glow: rgba(83,104,120,0.07);
+  --kt-border:      rgba(10,10,10,0.09);
+  --kt-border-acc:  rgba(83,104,120,0.28);
+  --kt-fg:          #0a0a0a;
+  --kt-fg-mid:      rgba(10,10,10,0.55);
+  --kt-fg-low:      rgba(10,10,10,0.35);
 }
 
 /* ── SECTION DIVIDER ─────────────────────────────────────────── */
@@ -31,18 +31,18 @@
 }
 .kt-section-divider::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(83,104,120,0.35), transparent);
 }
 .kt-divider-label {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background: #0d0d0d;
-  border: 1px solid rgba(245,158,11,0.3);
+  background: #fffdf7;
+  border: 1px solid rgba(83,104,120,0.3);
   padding: 6px 20px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-size: 9px; font-weight: 800;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(245,158,11,0.7); white-space: nowrap;
+  color: rgba(83,104,120,0.7); white-space: nowrap;
 }
 
 /* ── WRAPPER ─────────────────────────────────────────────────── */
@@ -51,7 +51,6 @@
   position: relative;
 }
 
-/* top border full width */
 .kt-wrap::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--kt-border-acc), transparent);
@@ -68,7 +67,7 @@
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 9.5px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--kt-accent); padding: 5px 12px;
-  border: 1px solid var(--kt-border-acc);
+  border: 1px solid var(--kt-border-acc); border-radius: 3px;
   background: var(--kt-accent-glow);
 }
 .kt-identity-tag i { font-size: 10px; }
@@ -90,7 +89,6 @@
 }
 
 /* ── LEFT — headline ─────────────────────────────────────────── */
-.kt-left {}
 .kt-eyebrow {
   font-size: 9.5px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--kt-accent); opacity: 0.7; margin-bottom: 20px; display: block;
@@ -109,7 +107,6 @@
 .kt-desc strong { color: var(--kt-fg); font-weight: 600; }
 
 /* ── RIGHT — kontak info ─────────────────────────────────────── */
-.kt-right {}
 .kt-col-label {
   font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--kt-fg-low); padding-bottom: 18px;
@@ -121,7 +118,7 @@
   display: flex; align-items: flex-start; gap: 16px;
   padding: 24px 20px;
   border: 1px solid var(--kt-border);
-  background: rgba(255,255,255,0.02);
+  background: rgba(10,10,10,0.02);
   margin-bottom: 12px;
   transition: border-color 0.22s, background 0.22s;
   position: relative;
@@ -130,7 +127,7 @@
   content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
   background: var(--kt-accent); transition: width 0.22s;
 }
-.kt-email-row:hover { border-color: var(--kt-border-acc); background: rgba(245,158,11,0.03); }
+.kt-email-row:hover { border-color: var(--kt-border-acc); background: rgba(83,104,120,0.04); }
 .kt-email-row:hover::before { width: 3px; }
 
 .kt-email-icon {
@@ -142,7 +139,6 @@
 .kt-email-icon i { font-size: 15px; color: var(--kt-accent); opacity: 0.8; }
 .kt-email-row:hover .kt-email-icon { background: var(--kt-accent-dim); transform: rotate(-8deg) scale(1.1); }
 
-.kt-email-info {}
 .kt-email-label {
   font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--kt-fg-low); margin-bottom: 5px; display: block;
@@ -169,32 +165,33 @@
   transition: background 0.18s;
 }
 .kt-note:last-child { border-bottom: none; }
-.kt-note:hover { background: rgba(255,255,255,0.02); }
+.kt-note:hover { background: rgba(83,104,120,0.03); }
 .kt-note i { font-size: 11px; color: var(--kt-accent); opacity: 0.6; margin-top: 2px; flex-shrink: 0; }
 
 /* ── BUTTONS ─────────────────────────────────────────────────── */
 .kt-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-.btn-kt-amber {
+/* PRIMARY button — Onyx fill → hover Blue Slate */
+.btn-kt-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--kt-accent); color: #0d0d0d;
-  padding: 14px 28px;
+  background: var(--kt-fg); color: #fffdf7;
+  padding: 14px 28px; border-radius: 6px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-weight: 800; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
   text-decoration: none; white-space: nowrap;
-  transition: background 0.2s, transform 0.22s, box-shadow 0.22s;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.22s;
 }
-.btn-kt-amber:hover {
-  background: #fbbf24; color: #0d0d0d; text-decoration: none;
-  transform: translateY(-3px); box-shadow: 0 12px 32px rgba(245,158,11,0.28);
+.btn-kt-primary:hover {
+  background: var(--kt-accent); color: #fff; text-decoration: none;
+  transform: translateY(-3px);
 }
-.btn-kt-amber i { font-size: 11px; transition: transform 0.22s; }
-.btn-kt-amber:hover i { transform: translateX(4px); }
+.btn-kt-primary i { font-size: 11px; transition: transform 0.22s; }
+.btn-kt-primary:hover i { transform: translateX(4px); }
 
 .btn-kt-ghost {
   display: inline-flex; align-items: center; gap: 8px;
   background: transparent; color: var(--kt-fg-mid);
-  padding: 13px 22px;
+  padding: 13px 22px; border-radius: 6px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
   text-decoration: none; white-space: nowrap;
@@ -242,7 +239,7 @@
 
 /* ── REDUCED MOTION ──────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .btn-kt-amber:hover, .kt-email-row:hover .kt-email-icon { transform: none !important; }
+  .btn-kt-primary:hover, .kt-email-row:hover .kt-email-icon { transform: none !important; }
 }
 </style>
 
@@ -309,21 +306,21 @@
           <div class="kt-notes">
             <div class="kt-note">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              <span>Jam layanan <strong style="color:rgba(255,255,255,0.72)">Senin – Jumat, 07.00 – 15.00 WIB</strong>. Di luar jam tersebut respon mungkin tertunda.</span>
+              <span>Jam layanan <strong style="color:rgba(10,10,10,0.72)">Senin – Jumat, 07.00 – 15.00 WIB</strong>. Di luar jam tersebut respon mungkin tertunda.</span>
             </div>
             <div class="kt-note">
               <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-              <span>Sertakan <strong style="color:rgba(255,255,255,0.72)">nama lengkap, kelas, dan nomor induk</strong> saat menghubungi admin agar prosesnya lebih cepat.</span>
+              <span>Sertakan <strong style="color:rgba(10,10,10,0.72)">nama lengkap, kelas, dan nomor induk</strong> saat menghubungi admin agar prosesnya lebih cepat.</span>
             </div>
             <div class="kt-note">
               <i class="fa-solid fa-school" aria-hidden="true"></i>
-              <span>Untuk urusan mendesak, dapat langsung datang ke <strong style="color:rgba(255,255,255,0.72)">Tata Usaha SMKN 7 Semarang</strong> pada jam sekolah.</span>
+              <span>Untuk urusan mendesak, dapat langsung datang ke <strong style="color:rgba(10,10,10,0.72)">Tata Usaha SMKN 7 Semarang</strong> pada jam sekolah.</span>
             </div>
           </div>
 
           <!-- buttons -->
           <div class="kt-actions">
-            <a class="btn-kt-amber" href="#PLACEHOLDER_ADMIN_URL">
+            <a class="btn-kt-primary" href="#PLACEHOLDER_ADMIN_URL">
               Hubungi Admin
               <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
@@ -335,17 +332,6 @@
 
         </div>
       </div>
-
-      <!-- footer strip -->
-      <div class="kt-footer-strip" data-aos="fade-up" data-aos-delay="80" data-aos-duration="600">
-        <p class="kt-footer-left">
-          &copy; <?= date('Y') ?> <strong>Stemba Parking</strong> &nbsp;·&nbsp;
-          Sistem Pendataan Kendaraan Siswa SMKN 7 Semarang &nbsp;·&nbsp;
-          Dikembangkan oleh MPK &amp; OSIS
-        </p>
-        <span class="kt-footer-right">Stemba Parking v1.0</span>
-      </div>
-
     </div>
   </div>
 </section>

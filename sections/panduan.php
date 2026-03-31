@@ -1,27 +1,29 @@
 <?php
-// sections/panduan.php — v2 EDITORIAL
+// sections/panduan.php — v3 CREAM EDITION
 // FRAGMENT: jangan tambahkan <html>, <head>, atau <body> di file ini.
 // Section Panduan Kendaraan — Stemba Parking · SMKN 7 Semarang
-// Konsep: Editorial / Magazine · Dark + Amber Accent · Timeline Layout
 // Dependensi: Bootstrap 5, AOS, Font Awesome 6, Google Fonts
 ?>
 
 <style>
 /* ============================================================
-   PANDUAN — EDITORIAL MAGAZINE · DARK + AMBER · TIMELINE
+   PANDUAN — CREAM + ONYX + BLUE SLATE · TIMELINE
    ============================================================ */
 
-.pd { background: #0d0d0d; font-family: var(--font-sans, 'Outfit', sans-serif); position: relative; }
+.pd { background: #fffdf7; font-family: var(--font-sans, 'Outfit', sans-serif); position: relative; }
 
 :root {
-  --pd-accent:      #f59e0b;
-  --pd-accent-dim:  rgba(245,158,11,0.18);
-  --pd-accent-glow: rgba(245,158,11,0.08);
-  --pd-fg:          #ffffff;
-  --pd-fg-mid:      rgba(255,255,255,0.52);
-  --pd-fg-low:      rgba(255,255,255,0.22);
-  --pd-border:      rgba(255,255,255,0.08);
-  --pd-border-acc:  rgba(245,158,11,0.35);
+  --pd-accent:      #536878;                    /* Blue Slate */
+  --pd-accent-dim:  rgba(83,104,120,0.18);
+  --pd-accent-glow: rgba(83,104,120,0.07);
+  --pd-bg:          #fffdf7;                    /* Cream / Ivory */
+  --pd-surface:     #f5f2ea;                    /* Warm Cream — card/panel */
+  --pd-fg:          #0a0a0a;                    /* Onyx */
+  --pd-fg-mid:      rgba(10,10,10,0.55);
+  --pd-fg-low:      rgba(10,10,10,0.35);
+  --pd-green:       #488c60;                    /* Sage Green */
+  --pd-border:      rgba(10,10,10,0.09);
+  --pd-border-acc:  rgba(83,104,120,0.28);
 }
 
 /* ── SECTION DIVIDER ─────────────────────────────────────────── */
@@ -31,18 +33,18 @@
 }
 .pd-section-divider::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(83,104,120,0.3), transparent);
 }
 .pd-divider-label {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background: #0d0d0d;
-  border: 1px solid rgba(245,158,11,0.3);
+  background: var(--pd-bg);
+  border: 1px solid var(--pd-border-acc);
   padding: 6px 20px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-size: 9px; font-weight: 800;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(245,158,11,0.7); white-space: nowrap;
+  color: var(--pd-accent); white-space: nowrap;
 }
 
 /* ── IDENTITY BAR ────────────────────────────────────────────── */
@@ -57,7 +59,7 @@
   font-size: 9.5px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--pd-accent); padding: 5px 12px;
   border: 1px solid var(--pd-border-acc); border-radius: 3px;
-  background: rgba(245,158,11,0.07);
+  background: var(--pd-accent-glow);
 }
 .pd-identity-tag i { font-size: 10px; }
 .pd-identity-sep { width: 1px; height: 14px; background: var(--pd-border); }
@@ -74,7 +76,7 @@
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: clamp(200px, 28vw, 400px);
   font-weight: 400; line-height: 0.85;
-  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+  color: transparent; -webkit-text-stroke: 1px rgba(83,104,120,0.06);
   pointer-events: none; user-select: none; letter-spacing: -0.04em;
   will-change: transform;
 }
@@ -134,7 +136,7 @@
 .pd-pull-num {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: clamp(80px, 11vw, 160px); font-weight: 400;
-  line-height: 1; color: var(--pd-accent); opacity: 0.12;
+  line-height: 1; color: var(--pd-accent); opacity: 0.10;
   display: block; margin-bottom: -24px; letter-spacing: -0.04em;
 }
 .pd-col-label {
@@ -157,15 +159,15 @@
 }
 .pd-syarat-card {
   display: grid; grid-template-columns: 72px 1fr;
-  background: rgba(255,255,255,0.02); transition: background 0.22s; cursor: default;
+  background: var(--pd-surface); transition: background 0.22s; cursor: default;
 }
 .pd-syarat-card + .pd-syarat-card { border-top: 1px solid var(--pd-border); }
-.pd-syarat-card:hover { background: rgba(255,255,255,0.045); }
+.pd-syarat-card:hover { background: rgba(83,104,120,0.06); }
 
 .pd-syarat-card-index {
   display: flex; align-items: flex-start; justify-content: center; padding-top: 28px;
   font-family: var(--font-serif, 'Instrument Serif', serif);
-  font-size: 13px; font-weight: 400; color: var(--pd-accent); opacity: 0.7;
+  font-size: 13px; font-weight: 400; color: var(--pd-accent);
   border-right: 1px solid var(--pd-border);
 }
 .pd-syarat-card-body { padding: 24px 28px; }
@@ -176,7 +178,7 @@
   transition: transform 0.22s, background 0.22s;
 }
 .pd-syarat-card-icon i { font-size: 13px; color: var(--pd-accent); }
-.pd-syarat-card:hover .pd-syarat-card-icon { transform: rotate(-8deg) scale(1.1); background: rgba(245,158,11,0.28); }
+.pd-syarat-card:hover .pd-syarat-card-icon { transform: rotate(-8deg) scale(1.1); background: var(--pd-accent-dim); }
 .pd-syarat-card-title { font-size: 15px; font-weight: 700; color: var(--pd-fg); margin-bottom: 7px; }
 .pd-syarat-card-desc  { font-size: 12.5px; line-height: 1.72; color: var(--pd-fg-mid); margin: 0; }
 
@@ -209,7 +211,7 @@
 .pd-timeline::before {
   content: ''; position: absolute;
   left: 35px; top: 0; bottom: 0; width: 1px;
-  background: linear-gradient(to bottom, var(--pd-accent) 0%, rgba(245,158,11,0.08) 100%);
+  background: linear-gradient(to bottom, var(--pd-accent) 0%, rgba(83,104,120,0.08) 100%);
 }
 .pd-tl-item {
   display: grid; grid-template-columns: 70px 1fr;
@@ -221,7 +223,7 @@
 }
 .pd-tl-dot {
   width: 14px; height: 14px; border-radius: 50%;
-  border: 2px solid var(--pd-accent); background: #0d0d0d;
+  border: 2px solid var(--pd-accent); background: var(--pd-bg);
   box-shadow: 0 0 0 4px var(--pd-accent-glow); flex-shrink: 0;
   transition: box-shadow 0.3s, background 0.3s;
 }
@@ -232,7 +234,7 @@
 
 .pd-tl-step-num {
   font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--pd-accent); opacity: 0.7;
+  text-transform: uppercase; color: var(--pd-accent);
   margin-bottom: 10px; display: block;
 }
 .pd-tl-title {
@@ -256,7 +258,7 @@
 
 .pd-tl-card {
   margin-top: 24px; padding: 22px 24px;
-  background: rgba(255,255,255,0.025); border: 1px solid var(--pd-border);
+  background: var(--pd-surface); border: 1px solid var(--pd-border);
   border-left: 3px solid var(--pd-accent); border-radius: 0 8px 8px 0;
   font-size: 13px; line-height: 1.7; color: var(--pd-fg-mid); max-width: 52ch;
 }
@@ -278,16 +280,16 @@
 .pd-ket-count {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: 80px; font-weight: 400; color: var(--pd-accent);
-  opacity: 0.18; line-height: 1; letter-spacing: -0.04em;
+  opacity: 0.14; line-height: 1; letter-spacing: -0.04em;
 }
 
 .pd-ket-row {
   display: grid; grid-template-columns: 56px 1fr auto; gap: 24px; align-items: start;
   padding: 24px 0; border-bottom: 1px solid var(--pd-border);
-  transition: padding-left 0.22s; cursor: default;
+  transition: padding-left 0.22s, background 0.22s; cursor: default;
 }
 .pd-ket-row:first-child { border-top: 1px solid var(--pd-border); }
-.pd-ket-row:hover { padding-left: 10px; }
+.pd-ket-row:hover { padding-left: 10px; background: rgba(83,104,120,0.03); }
 .pd-ket-num {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: 13px; color: var(--pd-accent); opacity: 0.5; padding-top: 3px;
@@ -296,7 +298,7 @@
 .pd-ket-sub  { font-size: 12.5px; line-height: 1.7; color: var(--pd-fg-mid); margin: 0; }
 .pd-ket-icon {
   width: 36px; height: 36px; border-radius: 8px;
-  border: 1px solid var(--pd-border); background: rgba(255,255,255,0.03);
+  border: 1px solid var(--pd-border); background: var(--pd-surface);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; margin-top: 2px; transition: border-color 0.22s, background 0.22s;
 }
@@ -320,18 +322,19 @@
 }
 .pd-cta-title em { font-style: italic; color: var(--pd-fg-mid); }
 
+/* PRIMARY button — Onyx → hover Blue Slate */
 .btn-pd-primary {
   display: inline-flex; align-items: center; gap: 12px;
-  background: var(--pd-accent); color: #0d0d0d;
-  padding: 16px 36px; border-radius: 4px;
+  background: var(--pd-fg); color: var(--pd-bg);
+  padding: 16px 36px; border-radius: 6px;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   font-weight: 800; font-size: 13px; letter-spacing: 0.05em;
   text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0;
-  transition: background 0.2s, transform 0.22s, box-shadow 0.22s;
+  border: none; transition: background 0.25s ease, color 0.25s ease, transform 0.22s;
 }
 .btn-pd-primary:hover {
-  background: #fbbf24; color: #0d0d0d; text-decoration: none;
-  transform: translateY(-3px); box-shadow: 0 16px 40px rgba(245,158,11,0.28);
+  background: var(--pd-accent); color: #fff; text-decoration: none;
+  transform: translateY(-2px);
 }
 .btn-pd-primary i { transition: transform 0.22s; }
 .btn-pd-primary:hover i { transform: translateX(5px); }
@@ -360,7 +363,7 @@
 }
 </style>
 
-<!-- ══ SECTION DIVIDER — pemisah antara tentang/hero & panduan ══ -->
+<!-- ══ SECTION DIVIDER ══════════════════════════════════════════ -->
 <div class="pd-section-divider" aria-hidden="true">
   <span class="pd-divider-label">
     <i class="fa-solid fa-chevron-down" style="font-size:8px;margin-right:6px;"></i>
@@ -375,7 +378,6 @@
     <div class="pd-header">
       <div class="pd-issue" aria-hidden="true" id="pd-issue">03</div>
 
-      <!-- identity bar — kejelasan section -->
       <div class="pd-identity-bar" data-aos="fade-up" data-aos-duration="500">
         <span class="pd-identity-tag">
           <i class="fa-solid fa-book-open-reader"></i>
@@ -420,7 +422,7 @@
       </div>
     </div>
 
-    <!-- ══ SYARAT KENDARAAN ════════════════════════════════════ -->
+    <!-- ══ SYARAT KENDARAAN ══════════════════════════════════════ -->
     <div class="pd-syarat">
       <div class="row g-5 align-items-start">
 
@@ -642,8 +644,6 @@
         </div>
       </div>
     </div>
-
-  </div><!-- /.container -->
 </section>
 
 <script>

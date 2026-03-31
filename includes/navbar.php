@@ -1,30 +1,50 @@
 <?php
 /**
- * navbar.php — Glassmorphism · Dark + Amber
- * Selaras dengan hero.php (Editorial Magazine · Dark + Amber)
+ * navbar.php — Glassmorphism · Creamy Latte (Light)
+ * Putih susu · warm cream · latte brown accent
  * Dependensi: Bootstrap 5, Font Awesome 6
  */
 ?>
 
 <style>
 /* ============================================================
-   NAVBAR — GLASSMORPHISM · DARK + AMBER
+   NAVBAR — GLASSMORPHISM · CREAMY LATTE
    ============================================================ */
 
 :root {
-  --nav-font:         'Outfit', sans-serif;
-  --nav-font-serif:   'Instrument Serif', Georgia, serif;
-  --nav-accent:       #f59e0b;
-  --nav-accent-dim:   rgba(245,158,11,0.15);
-  --nav-accent-glow:  rgba(245,158,11,0.08);
-  --nav-bg-glass:     rgba(13,13,13,0.62);
-  --nav-border:       rgba(255,255,255,0.07);
-  --nav-border-acc:   rgba(245,158,11,0.28);
-  --nav-fg:           #ffffff;
-  --nav-fg-mid:       rgba(255,255,255,0.55);
-  --nav-fg-low:       rgba(255,255,255,0.22);
-  --nav-blur:         18px;
+  --nav-font:         'DM Sans', 'Outfit', sans-serif;
+  --nav-font-serif:   'Playfair Display', Georgia, serif;
+
+  /* Accent: latte/caramel warm brown */
+  --nav-accent: #B8935A;
+  --nav-accent-light: #C8A876;
+  --nav-accent-dim:   rgba(160,120,58,0.10);
+  --nav-accent-glow:  rgba(160,120,58,0.06);
+
+  /* Glass: putih susu translucent */
+  --nav-bg-glass: rgba(255,253,245,0.75);
+  --nav-bg-scrolled: rgba(255,251,240,0.9);
+
+  /* Borders */
+  --nav-border: rgba(200,180,140,0.15);
+  --nav-border-acc: rgba(200,180,140,0.22);
+
+  /* Foreground */
+  --nav-fg: #3D2E1A;
+  --nav-fg-mid: rgba(61,46,26,0.72);
+  --nav-fg-low: rgba(61,46,26,0.25);
+
+  /* Blur */
+  --nav-blur:         24px;
   --nav-h:            68px;
+
+  /* Cream tones */
+  --cream-100:        #FFFCF8;
+  --cream-200:        #FAF4EA;
+  --cream-300:        #F0E5D0;
+  --latte-100: #D4A96A;
+  --latte-200: #C09050;
+  --latte-300: #B8823A;
 }
 
 /* ── BASE ─────────────────────────────────────────────────── */
@@ -32,41 +52,45 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 999;
   height: var(--nav-h);
   background: var(--nav-bg-glass);
-  backdrop-filter: blur(var(--nav-blur)) saturate(160%);
-  -webkit-backdrop-filter: blur(var(--nav-blur)) saturate(160%);
+  backdrop-filter: blur(var(--nav-blur)) saturate(180%) brightness(1.04);
+  -webkit-backdrop-filter: blur(var(--nav-blur)) saturate(180%) brightness(1.04);
   border-bottom: 1px solid var(--nav-border);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9),
+    0 4px 24px rgba(140,100,50,0.08),
+    0 1px 6px rgba(140,100,50,0.05);
   font-family: var(--nav-font);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* subtle amber line at the very top */
+/* warm caramel gradient line at top */
 .nav-glass::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(245,158,11,0.45) 30%,
-    rgba(245,158,11,0.7)  50%,
-    rgba(245,158,11,0.45) 70%,
+    rgba(160,120,58,0.30) 25%,
+    rgba(198,154,92,0.60) 50%,
+    rgba(160,120,58,0.30) 75%,
     transparent 100%);
   pointer-events: none;
 }
 
-/* noise texture overlay */
+/* subtle warm paper texture overlay */
 .nav-glass::after {
   content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  background-size: 160px 160px; opacity: 0.5; z-index: 0;
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 180px 180px; opacity: 0.6;
 }
 
-/* scrolled state — deeper glass */
+/* scrolled state — richer cream */
 .nav-glass.nav-scrolled {
-  background: rgba(10,10,10,0.80);
+  background: var(--nav-bg-scrolled);
   box-shadow:
-    0 1px 0 var(--nav-border),
-    0 8px 32px rgba(0,0,0,0.45),
-    0 2px 12px rgba(245,158,11,0.04);
+    0 1px 0 rgba(255,255,255,0.95),
+    0 8px 40px rgba(120,80,30,0.10),
+    0 2px 12px rgba(120,80,30,0.06);
 }
 
 /* ── INNER ────────────────────────────────────────────────── */
@@ -82,23 +106,24 @@
 .nav-brand {
   display: flex; align-items: center; gap: 12px;
   text-decoration: none; flex-shrink: 0; margin-right: 48px;
-  position: relative;
 }
 .nav-brand-logo {
-  width: 38px; height: 38px; border-radius: 4px;
+  width: 38px; height: 38px; border-radius: 6px;
   border: 1px solid var(--nav-border-acc);
-  background: var(--nav-accent-glow);
+  background: linear-gradient(135deg, var(--cream-200), var(--cream-300));
   overflow: hidden; display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(140,100,50,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .nav-brand-logo img { width: 100%; height: 100%; object-fit: cover; }
 .nav-brand:hover .nav-brand-logo {
-  border-color: var(--nav-accent); background: var(--nav-accent-dim);
+  border-color: var(--nav-accent);
+  box-shadow: 0 4px 16px rgba(140,100,50,0.20), inset 0 1px 0 rgba(255,255,255,0.9);
 }
 .nav-brand-text { line-height: 1.1; }
 .nav-brand-name {
   display: block;
-  font-size: 13px; font-weight: 800; letter-spacing: 0.06em;
+  font-size: 13px; font-weight: 800; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--nav-fg);
 }
 .nav-brand-sub {
@@ -112,24 +137,26 @@
   display: flex; align-items: center; gap: 2px;
   list-style: none; margin: 0; padding: 0; flex: 1;
 }
-.nav-links .nl-item {}
 .nav-links .nl-link {
   display: flex; align-items: center; gap: 7px;
-  padding: 8px 14px; border-radius: 3px;
-  font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 8px 14px; border-radius: 5px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
   color: var(--nav-fg-mid); text-decoration: none;
   border: 1px solid transparent;
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
-.nav-links .nl-link i { font-size: 10px; opacity: 0.7; transition: opacity 0.2s; }
+.nav-links .nl-link i { font-size: 10px; opacity: 0.6; transition: opacity 0.2s; }
 .nav-links .nl-link:hover {
-  color: var(--nav-fg); background: rgba(255,255,255,0.04);
-  border-color: var(--nav-border);
+  color: var(--nav-fg);
+  background: rgba(160,120,58,0.06);
+  border-color: var(--nav-border-acc);
+  box-shadow: 0 1px 4px rgba(140,100,50,0.06);
 }
 .nav-links .nl-link:hover i { opacity: 1; }
 .nav-links .nl-link.active {
-  color: var(--nav-accent); background: var(--nav-accent-glow);
+  color: var(--nav-accent);
+  background: var(--nav-accent-dim);
   border-color: var(--nav-border-acc);
 }
 
@@ -143,78 +170,84 @@
 /* ghost btn */
 .nav-btn-ghost {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 18px; border-radius: 3px;
+  padding: 8px 18px; border-radius: 5px;
   font-family: var(--nav-font); font-size: 11.5px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  letter-spacing: 0.07em; text-transform: uppercase;
   color: var(--nav-fg-mid); text-decoration: none;
   border: 1px solid var(--nav-border);
-  background: transparent;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  background: rgba(255,252,248,0.4);
+  transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 .nav-btn-ghost:hover {
-  color: var(--nav-fg); border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.04); text-decoration: none;
+  color: var(--nav-fg); border-color: var(--nav-border-acc);
+  background: rgba(160,120,58,0.05);
+  box-shadow: 0 2px 8px rgba(140,100,50,0.08);
+  text-decoration: none;
 }
 .nav-btn-ghost i { font-size: 10px; }
 
-/* amber btn */
+/* latte btn (CTA) */
 .nav-btn-amber {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 20px; border-radius: 3px;
+  padding: 8px 20px; border-radius: 5px;
   font-family: var(--nav-font); font-size: 11.5px; font-weight: 800;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: #0d0d0d; text-decoration: none;
-  background: var(--nav-accent);
-  border: 1px solid transparent;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: #fff; text-decoration: none;
+  background: linear-gradient(135deg, var(--latte-100) 0%, var(--latte-200) 60%, var(--latte-300) 100%);
+  border: 1px solid rgba(120,80,25,0.20);
+  box-shadow: 0 2px 10px rgba(140,100,50,0.20), inset 0 1px 0 rgba(255,255,255,0.18);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 .nav-btn-amber:hover {
-  background: #fbbf24; color: #0d0d0d; text-decoration: none;
+  color: #fff; text-decoration: none;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245,158,11,0.28);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 28px rgba(140,100,50,0.30), inset 0 1px 0 rgba(255,255,255,0.22);
 }
 .nav-btn-amber i { font-size: 10px; }
 
 /* ── AVATAR DROPDOWN ─────────────────────────────────────── */
 .nav-avatar-wrap { position: relative; }
 .nav-avatar-btn {
-  width: 38px; height: 38px; border-radius: 4px;
+  width: 38px; height: 38px; border-radius: 6px;
   border: 1.5px solid var(--nav-border-acc);
-  background: var(--nav-accent-glow);
+  background: linear-gradient(135deg, var(--cream-200), var(--cream-300));
   overflow: hidden; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(140,100,50,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
   transition: border-color 0.2s, box-shadow 0.2s;
   text-decoration: none;
 }
 .nav-avatar-btn:hover {
   border-color: var(--nav-accent);
-  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+  box-shadow: 0 0 0 3px rgba(160,120,58,0.12), 0 4px 12px rgba(140,100,50,0.14);
 }
 .nav-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
-.nav-avatar-btn .nav-avatar-icon {
-  font-size: 15px; color: var(--nav-accent);
-}
+.nav-avatar-btn .nav-avatar-icon { font-size: 15px; color: var(--nav-accent); }
 
-/* pulsing amber ring when logged in */
+/* online indicator */
 .nav-avatar-btn::after {
   content: '';
   position: absolute; bottom: -2px; right: -2px;
   width: 9px; height: 9px; border-radius: 50%;
-  background: #86efac;
-  border: 1.5px solid #0d0d0d;
+  background: #6bbf84;
+  border: 1.5px solid var(--cream-100);
 }
 
 /* dropdown */
 .nav-dropdown {
   position: absolute; top: calc(100% + 12px); right: 0;
-  min-width: 240px;
-  background: rgba(16,16,16,0.92);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  min-width: 244px;
+  background: rgba(255,252,248,0.92);
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
   border: 1px solid var(--nav-border);
   border-top: 1px solid var(--nav-border-acc);
-  border-radius: 4px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  box-shadow:
+    0 24px 60px rgba(100,70,30,0.14),
+    0 4px 16px rgba(100,70,30,0.08),
+    0 0 0 1px rgba(255,255,255,0.6) inset;
   opacity: 0; visibility: hidden; transform: translateY(-6px);
   transition: opacity 0.22s, transform 0.22s, visibility 0.22s;
   z-index: 100;
@@ -224,29 +257,31 @@
   opacity: 1; visibility: visible; transform: translateY(0);
 }
 
-/* glass glint on dropdown */
+/* warm glint */
 .nav-dropdown::before {
   content: '';
   position: absolute; top: 0; left: 20px; right: 20px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--nav-accent), transparent);
-  opacity: 0.5;
+  background: linear-gradient(90deg, transparent, rgba(198,154,92,0.6), transparent);
 }
 
 .nav-dd-head {
   padding: 20px; text-align: center;
   border-bottom: 1px solid var(--nav-border);
+  background: linear-gradient(180deg, rgba(240,229,208,0.3) 0%, transparent 100%);
+  border-radius: 8px 8px 0 0;
 }
 .nav-dd-avatar {
-  width: 56px; height: 56px; border-radius: 4px; margin: 0 auto 10px;
+  width: 56px; height: 56px; border-radius: 6px; margin: 0 auto 10px;
   border: 2px solid var(--nav-border-acc);
-  background: var(--nav-accent-glow);
+  background: linear-gradient(135deg, var(--cream-200), var(--cream-300));
+  box-shadow: 0 4px 12px rgba(140,100,50,0.12);
   overflow: hidden; display: flex; align-items: center; justify-content: center;
 }
 .nav-dd-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .nav-dd-avatar i { font-size: 22px; color: var(--nav-accent); }
 .nav-dd-name {
   font-size: 13px; font-weight: 800; color: var(--nav-fg);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 .nav-dd-meta {
   font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
@@ -254,10 +289,10 @@
 }
 .nav-dd-tag {
   display: inline-block; margin-top: 8px;
-  font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase;
   color: var(--nav-accent); padding: 3px 10px;
-  border: 1px solid var(--nav-border-acc); border-radius: 2px;
-  background: var(--nav-accent-glow);
+  border: 1px solid var(--nav-border-acc); border-radius: 3px;
+  background: var(--nav-accent-dim);
 }
 
 .nav-dd-list { list-style: none; margin: 0; padding: 6px 0; }
@@ -265,7 +300,7 @@
 .nav-dd-list a {
   display: flex; align-items: center; gap: 11px;
   padding: 10px 18px;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
   color: var(--nav-fg-mid); text-decoration: none;
   transition: background 0.15s, color 0.15s, padding-left 0.15s;
 }
@@ -274,13 +309,13 @@
   color: var(--nav-fg-low); transition: color 0.15s;
 }
 .nav-dd-list a:hover {
-  background: rgba(255,255,255,0.04); color: var(--nav-fg);
+  background: rgba(160,120,58,0.06); color: var(--nav-fg);
   padding-left: 22px;
 }
 .nav-dd-list a:hover i { color: var(--nav-accent); }
-.nav-dd-list a.nav-dd-danger { color: rgba(252,165,165,0.7); }
-.nav-dd-list a.nav-dd-danger:hover { background: rgba(239,68,68,0.08); color: #fca5a5; }
-.nav-dd-list a.nav-dd-danger:hover i { color: #fca5a5; }
+.nav-dd-list a.nav-dd-danger { color: rgba(185,60,60,0.85); }
+.nav-dd-list a.nav-dd-danger:hover { background: rgba(220,60,60,0.06); color: #c0392b; }
+.nav-dd-list a.nav-dd-danger:hover i { color: #c0392b; }
 .nav-dd-divider { height: 1px; background: var(--nav-border); margin: 4px 0; }
 
 /* ── HAMBURGER (mobile) ──────────────────────────────────── */
@@ -288,12 +323,12 @@
   display: none;
   flex-direction: column; gap: 5px;
   width: 36px; height: 36px; padding: 8px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--nav-border); border-radius: 3px;
+  background: rgba(160,120,58,0.04);
+  border: 1px solid var(--nav-border); border-radius: 5px;
   cursor: pointer; margin-left: auto;
   transition: background 0.2s, border-color 0.2s;
 }
-.nav-hamburger:hover { background: rgba(255,255,255,0.08); border-color: var(--nav-border-acc); }
+.nav-hamburger:hover { background: var(--nav-accent-dim); border-color: var(--nav-border-acc); }
 .nav-hamburger span {
   display: block; height: 1.5px; width: 100%;
   background: var(--nav-fg-mid);
@@ -307,10 +342,11 @@
 /* ── MOBILE DRAWER ───────────────────────────────────────── */
 .nav-mobile-drawer {
   position: fixed; top: var(--nav-h); left: 0; right: 0;
-  background: rgba(10,10,10,0.96);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  background: rgba(255,252,248,0.96);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid var(--nav-border-acc);
+  box-shadow: 0 12px 40px rgba(100,70,30,0.12);
   padding: 24px;
   display: none; flex-direction: column; gap: 4px;
   z-index: 998;
@@ -322,16 +358,16 @@
 }
 .nav-mobile-drawer .nm-link {
   display: flex; align-items: center; gap: 12px;
-  padding: 12px 16px; border-radius: 3px;
-  font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  padding: 12px 16px; border-radius: 5px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--nav-fg-mid); text-decoration: none;
   border: 1px solid transparent;
   transition: all 0.2s;
 }
 .nav-mobile-drawer .nm-link i { font-size: 12px; color: var(--nav-fg-low); }
 .nav-mobile-drawer .nm-link:hover {
-  color: var(--nav-fg); background: rgba(255,255,255,0.04);
-  border-color: var(--nav-border); padding-left: 20px;
+  color: var(--nav-fg); background: var(--nav-accent-dim);
+  border-color: var(--nav-border-acc); padding-left: 20px;
 }
 .nav-mobile-drawer .nm-link:hover i { color: var(--nav-accent); }
 
@@ -354,7 +390,7 @@
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════
-     NAVBAR
+     NAVBAR — CREAMY LATTE GLASS
      ═══════════════════════════════════════════════════════════ -->
 <nav class="nav-glass" id="mainNav" role="navigation" aria-label="Navigasi utama">
   <div class="nav-inner">
@@ -362,7 +398,7 @@
     <!-- ── BRAND ──────────────────────────────────────────── -->
     <a class="nav-brand" href="index.php" aria-label="Stemba Parking — Halaman Utama">
       <div class="nav-brand-logo">
-        <img src="assets/img/logo-white.png" alt="Logo SMKN 7">
+        <img src="assets/img/3.png" alt="Logo SMKN 7">
       </div>
       <div class="nav-brand-text">
         <span class="nav-brand-name">SMK Negeri 7</span>
@@ -416,8 +452,7 @@
             <div class="nav-dd-head">
               <div class="nav-dd-avatar">
                 <?php if (!empty($_SESSION['foto'])): ?>
-                  <img src="assets/img/profile/<?= htmlspecialchars($_SESSION['foto']) ?>"
-                       alt="">
+                  <img src="assets/img/profile/<?= htmlspecialchars($_SESSION['foto']) ?>" alt="">
                 <?php else: ?>
                   <i class="fas fa-user-circle" aria-hidden="true"></i>
                 <?php endif; ?>
@@ -557,7 +592,6 @@
 
     if (isOpen) {
       drawer.style.display = 'flex';
-      // next frame so transition plays
       requestAnimationFrame(function () { drawer.classList.add('is-open'); });
     } else {
       drawer.classList.remove('is-open');
@@ -597,4 +631,4 @@
     sections.forEach(function (s) { obs.observe(s); });
   }
 })();
-</script>
+</script> 

@@ -72,7 +72,7 @@ function timeAgo($timestamp)
 <!-- CONTENT -->
 <main>
     <?php include 'sections/hero.php'; ?>
-    <?php include 'sections/about.php'; ?>
+    <?php include 'sections/tentang.php'; ?>
     <?php include 'sections/panduan.php'; ?>
     <?php include 'sections/alur.php'; ?>
     <?php include 'sections/kontak.php'; ?>

@@ -1,12 +1,10 @@
 <?php
-// dashboard/dashboard-user.php
+// dashboard/dashboard-user.php — v2 CREAM EDITION
 // Dashboard Siswa — Stemba Parking · SMKN 7 Semarang
-// Disesuaikan dengan sistem auth yang sudah ada
 
 session_start();
 require_once '../includes/config.php';
 
-// cek login & role
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../login.php');
   exit;
@@ -18,19 +16,16 @@ if ($_SESSION['role'] === 'admin') {
 
 $uid = $_SESSION['user_id'];
 
-// ambil data user — tanpa nama & nisn
 $stmt = $pdo->prepare("SELECT id, username, kelas, jurusan, foto FROM users WHERE id = ?");
 $stmt->execute([$uid]);
 $user = $stmt->fetch();
 
-$user["kelas"]   = $_SESSION["kelas"]   ?: ($user["kelas"]   ?: "-");
-$user["jurusan"] = $_SESSION["jurusan"] ?: ($user["jurusan"] ?: "-");
-$user["foto"]    = $_SESSION["foto"]    ?: $user["foto"];
+$user['kelas']   = $_SESSION['kelas']   ?: ($user['kelas']   ?: '-');
+$user['jurusan'] = $_SESSION['jurusan'] ?: ($user['jurusan'] ?: '-');
+$user['foto']    = $_SESSION['foto']    ?: $user['foto'];
 
-// inisial avatar dari username
-$inisial = strtoupper(substr($user["username"], 0, 1));
+$inisial = strtoupper(substr($user['username'], 0, 1));
 
-// statistik kendaraan
 $stmt = $pdo->prepare("
   SELECT
     COUNT(*)                          AS total,
@@ -46,7 +41,6 @@ $stats['menunggu']  = (int)$stats['menunggu'];
 $stats['disetujui'] = (int)$stats['disetujui'];
 $stats['ditolak']   = (int)$stats['ditolak'];
 
-// daftar kendaraan terbaru (limit 5)
 $stmt = $pdo->prepare("
   SELECT k.*, d.foto_kendaraan
   FROM kendaraan k
@@ -57,6 +51,10 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$uid]);
 $kendaraan_list = $stmt->fetchAll();
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM kendaraan WHERE user_id = ? AND status = 'ditolak'");
+$stmt->execute([$uid]);
+$ada_tolak = $stmt->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -70,42 +68,60 @@ $kendaraan_list = $stmt->fetchAll();
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --font-serif: 'Instrument Serif', Georgia, serif;
-    --font-sans:  'Outfit', sans-serif;
-    --db-bg:          #0d0d0d;
-    --db-bg-2:        #111111;
-    --db-accent:      #f59e0b;
-    --db-accent-dim:  rgba(245,158,11,0.18);
-    --db-accent-glow: rgba(245,158,11,0.07);
-    --db-border:      rgba(255,255,255,0.07);
-    --db-border-acc:  rgba(245,158,11,0.28);
-    --db-fg:          #ffffff;
-    --db-fg-mid:      rgba(255,255,255,0.48);
-    --db-fg-low:      rgba(255,255,255,0.2);
-    --db-green:       #86efac;
-    --db-green-bg:    rgba(134,239,172,0.08);
-    --db-green-bdr:   rgba(134,239,172,0.2);
-    --db-yellow:      #fde047;
-    --db-yellow-bg:   rgba(253,224,71,0.08);
-    --db-yellow-bdr:  rgba(253,224,71,0.2);
-    --db-red:         #f87171;
-    --db-red-bg:      rgba(248,113,113,0.08);
-    --db-red-bdr:     rgba(248,113,113,0.2);
-  }
-  html, body { min-height: 100vh; background: var(--db-bg); font-family: var(--font-sans); color: var(--db-fg); }
 
-  /* ── TOPNAV ── */
+  :root {
+    --font-serif:        'Instrument Serif', Georgia, serif;
+    --font-sans:         'Outfit', sans-serif;
+
+    /* Palet utama */
+    --db-bg:             #fffdf7;              /* Cream / Ivory */
+    --db-surface:        #f5f2ea;              /* Warm Cream — card/panel */
+    --db-accent:         #536878;              /* Blue Slate */
+    --db-accent-dim:     rgba(83,104,120,0.18);
+    --db-accent-glow:    rgba(83,104,120,0.07);
+    --db-fg:             #0a0a0a;              /* Onyx */
+    --db-fg-mid:         rgba(10,10,10,0.55);
+    --db-fg-low:         rgba(10,10,10,0.32);
+    --db-border:         rgba(10,10,10,0.08);
+    --db-border-acc:     rgba(83,104,120,0.25);
+
+    /* Status */
+    --db-green:          #488c60;              /* Sage Green — disetujui */
+    --db-green-bg:       rgba(72,140,96,0.08);
+    --db-green-bdr:      rgba(72,140,96,0.22);
+    --db-yellow:         #8a6e20;              /* Amber Onyx — menunggu */
+    --db-yellow-bg:      rgba(138,110,32,0.07);
+    --db-yellow-bdr:     rgba(138,110,32,0.20);
+    --db-red:            #b03a2e;              /* Red Onyx — ditolak */
+    --db-red-bg:         rgba(176,58,46,0.07);
+    --db-red-bdr:        rgba(176,58,46,0.20);
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--db-bg);
+    font-family: var(--font-sans);
+    color: var(--db-fg);
+  }
+
+  /* ── TOPNAV ──────────────────────────────────────────────── */
   .db-nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(13,13,13,0.92);
+    background: rgba(255,253,247,0.92);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--db-border);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 4px 20px rgba(83,104,120,0.06);
+  }
+  .db-nav::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(83,104,120,0.35), transparent);
   }
   .db-nav-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px; height: 60px; gap: 20px; max-width: 1280px; margin: 0 auto;
+    padding: 0 40px; height: 62px; gap: 20px; max-width: 1280px; margin: 0 auto;
   }
+
+  /* brand */
   .db-nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .db-nav-brand-icon {
     width: 32px; height: 32px;
@@ -113,14 +129,21 @@ $kendaraan_list = $stmt->fetchAll();
     display: flex; align-items: center; justify-content: center;
   }
   .db-nav-brand-icon i { font-size: 14px; color: var(--db-accent); }
-  .db-nav-brand-name { font-family: var(--font-serif); font-size: 17px; color: var(--db-fg); letter-spacing: -0.02em; line-height: 1; }
-  .db-nav-brand-sub  { font-size: 9px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--db-fg-low); display: block; margin-top: 1px; }
+  .db-nav-brand-name {
+    font-family: var(--font-serif); font-size: 17px;
+    color: var(--db-fg); letter-spacing: -0.02em; line-height: 1;
+  }
+  .db-nav-brand-sub {
+    font-size: 9px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--db-fg-low); display: block; margin-top: 1px;
+  }
 
+  /* nav links */
   .db-nav-center { display: flex; align-items: center; gap: 2px; }
   .db-nav-link {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 7px 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-    color: var(--db-fg-low); text-decoration: none;
+    color: var(--db-fg-mid); text-decoration: none;
     border-bottom: 2px solid transparent;
     transition: color 0.2s, border-color 0.2s;
   }
@@ -128,6 +151,7 @@ $kendaraan_list = $stmt->fetchAll();
   .db-nav-link.active { color: var(--db-accent); border-bottom-color: var(--db-accent); }
   .db-nav-link i { font-size: 11px; }
 
+  /* right area */
   .db-nav-right { display: flex; align-items: center; gap: 10px; }
 
   .db-notif-btn {
@@ -139,18 +163,17 @@ $kendaraan_list = $stmt->fetchAll();
   .db-notif-btn i { font-size: 13px; color: var(--db-fg-low); }
   .db-notif-dot {
     position: absolute; top: 6px; right: 6px;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--db-accent);
+    width: 6px; height: 6px; border-radius: 50%; background: var(--db-yellow);
     animation: db-pulse 2s ease-in-out infinite;
   }
   @keyframes db-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.6)} }
 
-  /* avatar — foto atau inisial */
   .db-avatar {
     width: 34px; height: 34px; border: 1px solid var(--db-border-acc);
     background: var(--db-accent-glow); overflow: hidden;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 800; color: var(--db-accent); text-transform: uppercase;
-    flex-shrink: 0;
+    font-size: 12px; font-weight: 800; color: var(--db-accent);
+    text-transform: uppercase; flex-shrink: 0;
   }
   .db-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -162,13 +185,16 @@ $kendaraan_list = $stmt->fetchAll();
     border: 1px solid var(--db-border); cursor: pointer; text-decoration: none;
     transition: border-color 0.2s, color 0.2s, background 0.2s;
   }
-  .btn-db-logout:hover { border-color: var(--db-red-bdr); color: var(--db-red); background: var(--db-red-bg); }
+  .btn-db-logout:hover {
+    border-color: var(--db-red-bdr); color: var(--db-red); background: var(--db-red-bg);
+    text-decoration: none;
+  }
   .btn-db-logout i { font-size: 10px; }
 
-  /* ── PAGE ── */
+  /* ── PAGE ────────────────────────────────────────────────── */
   .db-page { padding: 48px 40px 80px; max-width: 1280px; margin: 0 auto; }
 
-  /* ── WELCOME ── */
+  /* ── WELCOME ─────────────────────────────────────────────── */
   .db-welcome {
     display: flex; align-items: flex-end; justify-content: space-between;
     gap: 24px; margin-bottom: 48px; flex-wrap: wrap;
@@ -176,7 +202,7 @@ $kendaraan_list = $stmt->fetchAll();
   }
   .db-welcome-eyebrow {
     font-size: 9.5px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--db-accent); opacity: 0.7; margin-bottom: 10px; display: block;
+    color: var(--db-accent); margin-bottom: 10px; display: block;
   }
   .db-welcome-title {
     font-family: var(--font-serif); font-size: clamp(28px, 3.5vw, 46px);
@@ -188,28 +214,41 @@ $kendaraan_list = $stmt->fetchAll();
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   }
   .db-welcome-sub span { display: flex; align-items: center; gap: 6px; }
-  .db-welcome-sub i { font-size: 10px; color: var(--db-accent); opacity: 0.5; }
+  .db-welcome-sub i { font-size: 10px; color: var(--db-accent); opacity: 0.6; }
 
+  /* primary button — Onyx → hover Blue Slate */
   .btn-db-primary {
-    display: inline-flex; align-items: center; gap: 9px;
-    background: var(--db-accent); color: #0d0d0d;
-    padding: 12px 24px; font-family: var(--font-sans);
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--db-fg); color: var(--db-bg);
+    padding: 12px 28px; font-family: var(--font-sans);
     font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
     text-decoration: none; border: none; cursor: pointer;
-    transition: background 0.2s, transform 0.22s, box-shadow 0.22s;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.22s;
   }
   .btn-db-primary:hover {
-    background: #fbbf24; color: #0d0d0d; text-decoration: none;
-    transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,0.28);
+    background: var(--db-accent); color: #fff; text-decoration: none;
+    transform: translateY(-2px);
   }
-  .btn-db-primary i { font-size: 10px; transition: transform 0.2s; }
-  .btn-db-primary:hover i { transform: translateX(3px); }
 
-  /* ── STAT CARDS ── */
-  .db-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+  /* ── ALERT DITOLAK ───────────────────────────────────────── */
+  .db-alert-reject {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--db-red-bg); border: 1px solid var(--db-red-bdr);
+    border-left: 3px solid var(--db-red);
+    padding: 16px 20px; margin-bottom: 32px;
+    font-size: 13px; color: var(--db-red); line-height: 1.6;
+  }
+  .db-alert-reject i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .db-alert-reject strong { font-weight: 700; }
+
+  /* ── STAT CARDS ──────────────────────────────────────────── */
+  .db-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 48px;
+  }
 
   .db-card {
-    background: var(--db-bg-2); border: 1px solid var(--db-border);
+    background: var(--db-surface); border: 1px solid var(--db-border);
     padding: 32px 28px; position: relative; overflow: hidden; cursor: default;
     transition: border-color 0.25s, background 0.25s, transform 0.25s;
   }
@@ -217,52 +256,68 @@ $kendaraan_list = $stmt->fetchAll();
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   }
   .db-card:hover { transform: translateY(-4px); }
-  .db-card-total::before  { background: var(--db-accent); }
-  .db-card-wait::before   { background: var(--db-yellow); }
-  .db-card-ok::before     { background: var(--db-green); }
-  .db-card-total:hover { border-color: var(--db-border-acc); background: rgba(245,158,11,0.04); }
-  .db-card-wait:hover  { border-color: var(--db-yellow-bdr); background: var(--db-yellow-bg); }
-  .db-card-ok:hover    { border-color: var(--db-green-bdr);  background: var(--db-green-bg); }
+
+  /* total */
+  .db-card-total::before                { background: var(--db-accent); }
+  .db-card-total:hover                  { border-color: var(--db-border-acc); background: rgba(83,104,120,0.05); }
+  .db-card-total .db-card-bgnum         { -webkit-text-stroke: 1px rgba(83,104,120,0.08); }
+  .db-card-total .db-card-icon          { border-color: var(--db-border-acc); background: var(--db-accent-glow); }
+  .db-card-total .db-card-icon i        { color: var(--db-accent); }
+  .db-card-total .db-card-num           { color: var(--db-fg); }
+  .db-card-total .db-card-desc i        { color: var(--db-accent); }
+
+  /* menunggu */
+  .db-card-wait::before                 { background: var(--db-yellow); }
+  .db-card-wait:hover                   { border-color: var(--db-yellow-bdr); background: var(--db-yellow-bg); }
+  .db-card-wait .db-card-bgnum          { -webkit-text-stroke: 1px rgba(138,110,32,0.10); }
+  .db-card-wait .db-card-icon           { border-color: var(--db-yellow-bdr); background: var(--db-yellow-bg); }
+  .db-card-wait .db-card-icon i         { color: var(--db-yellow); }
+  .db-card-wait .db-card-num            { color: var(--db-yellow); }
+  .db-card-wait .db-card-desc i         { color: var(--db-yellow); }
+
+  /* disetujui */
+  .db-card-ok::before                   { background: var(--db-green); }
+  .db-card-ok:hover                     { border-color: var(--db-green-bdr); background: var(--db-green-bg); }
+  .db-card-ok .db-card-bgnum            { -webkit-text-stroke: 1px rgba(72,140,96,0.10); }
+  .db-card-ok .db-card-icon             { border-color: var(--db-green-bdr); background: var(--db-green-bg); }
+  .db-card-ok .db-card-icon i           { color: var(--db-green); }
+  .db-card-ok .db-card-num              { color: var(--db-green); }
+  .db-card-ok .db-card-desc i           { color: var(--db-green); }
 
   .db-card-bgnum {
     position: absolute; bottom: -16px; right: 16px;
     font-family: var(--font-serif); font-size: 90px; font-weight: 400;
     color: transparent; line-height: 1; pointer-events: none; user-select: none;
   }
-  .db-card-total .db-card-bgnum { -webkit-text-stroke: 1px rgba(245,158,11,0.08); }
-  .db-card-wait  .db-card-bgnum { -webkit-text-stroke: 1px rgba(253,224,71,0.08); }
-  .db-card-ok    .db-card-bgnum { -webkit-text-stroke: 1px rgba(134,239,172,0.08); }
-
-  .db-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
-  .db-card-label { font-size: 9.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--db-fg-low); display: block; }
+  .db-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;
+  }
+  .db-card-label {
+    font-size: 9.5px; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--db-fg-low); display: block;
+  }
   .db-card-icon {
     width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
     border: 1px solid; transition: transform 0.3s;
   }
   .db-card:hover .db-card-icon { transform: rotate(-8deg) scale(1.1); }
-  .db-card-total .db-card-icon { border-color: var(--db-border-acc); background: var(--db-accent-glow); }
-  .db-card-wait  .db-card-icon { border-color: var(--db-yellow-bdr); background: var(--db-yellow-bg); }
-  .db-card-ok    .db-card-icon { border-color: var(--db-green-bdr);  background: var(--db-green-bg); }
-  .db-card-total .db-card-icon i { font-size: 14px; color: var(--db-accent); }
-  .db-card-wait  .db-card-icon i { font-size: 14px; color: var(--db-yellow); }
-  .db-card-ok    .db-card-icon i { font-size: 14px; color: var(--db-green); }
-
+  .db-card-icon i { font-size: 14px; }
   .db-card-num {
     font-family: var(--font-serif); font-size: 64px; font-weight: 400;
-    line-height: 1; letter-spacing: -0.03em; display: block; margin-bottom: 8px; position: relative; z-index: 1;
+    line-height: 1; letter-spacing: -0.03em; display: block;
+    margin-bottom: 8px; position: relative; z-index: 1;
   }
-  .db-card-total .db-card-num { color: var(--db-fg); }
-  .db-card-wait  .db-card-num { color: var(--db-yellow); }
-  .db-card-ok    .db-card-num { color: var(--db-green); }
-  .db-card-desc { font-size: 12px; color: var(--db-fg-low); position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; }
-  .db-card-desc i { font-size: 10px; }
-  .db-card-total .db-card-desc i { color: var(--db-accent); opacity: 0.5; }
-  .db-card-wait  .db-card-desc i { color: var(--db-yellow); opacity: 0.5; }
-  .db-card-ok    .db-card-desc i { color: var(--db-green); opacity: 0.5; }
+  .db-card-desc {
+    font-size: 12px; color: var(--db-fg-low);
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .db-card-desc i { font-size: 10px; opacity: 0.6; }
 
-  /* ── SECTION LABEL ── */
+  /* ── SECTION LABEL ───────────────────────────────────────── */
   .db-section-label {
-    display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; margin-bottom: 16px;
   }
   .db-section-label-left { display: flex; align-items: center; gap: 12px; }
   .db-section-tag {
@@ -270,20 +325,26 @@ $kendaraan_list = $stmt->fetchAll();
     color: var(--db-accent); padding: 4px 10px;
     border: 1px solid var(--db-border-acc); background: var(--db-accent-glow);
   }
-  .db-section-title-sm { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--db-fg-low); }
+  .db-section-title-sm {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--db-fg-low);
+  }
   .db-section-action {
     font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--db-fg-low); text-decoration: none; display: flex; align-items: center; gap: 6px;
-    transition: color 0.2s;
+    color: var(--db-fg-low); text-decoration: none;
+    display: flex; align-items: center; gap: 6px; transition: color 0.2s;
   }
   .db-section-action:hover { color: var(--db-accent); }
   .db-section-action i { font-size: 9px; }
 
-  /* ── TABLE ── */
-  .db-table-wrap { border: 1px solid var(--db-border); margin-bottom: 40px; overflow-x: auto; }
+  /* ── TABLE ───────────────────────────────────────────────── */
+  .db-table-wrap {
+    border: 1px solid var(--db-border); margin-bottom: 40px; overflow-x: auto;
+  }
   .db-table-head {
     display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.2fr 100px;
-    background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--db-border); min-width: 600px;
+    background: var(--db-surface); border-bottom: 1px solid var(--db-border);
+    min-width: 600px;
   }
   .db-th {
     padding: 12px 18px; font-size: 8.5px; font-weight: 800;
@@ -291,75 +352,90 @@ $kendaraan_list = $stmt->fetchAll();
     border-right: 1px solid var(--db-border);
   }
   .db-th:last-child { border-right: none; }
+
   .db-table-row {
     display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.2fr 100px;
     border-bottom: 1px solid var(--db-border);
-    transition: background 0.18s; cursor: default; position: relative; min-width: 600px;
+    transition: background 0.18s; cursor: default;
+    position: relative; min-width: 600px; background: var(--db-bg);
   }
   .db-table-row:last-child { border-bottom: none; }
   .db-table-row::before {
     content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
     background: var(--db-accent); transition: width 0.2s;
   }
-  .db-table-row:hover { background: rgba(255,255,255,0.025); }
+  .db-table-row:hover { background: rgba(83,104,120,0.04); }
   .db-table-row:hover::before { width: 3px; }
+
   .db-td {
     padding: 16px 18px; font-size: 13px; color: var(--db-fg-mid);
-    border-right: 1px solid var(--db-border); display: flex; align-items: center; gap: 10px;
+    border-right: 1px solid var(--db-border);
+    display: flex; align-items: center; gap: 10px;
   }
   .db-td:last-child { border-right: none; }
+
   .db-vehicle-icon {
     width: 32px; height: 32px; flex-shrink: 0;
-    border: 1px solid var(--db-border); background: rgba(255,255,255,0.04);
+    border: 1px solid var(--db-border); background: var(--db-surface);
     display: flex; align-items: center; justify-content: center; font-size: 14px;
   }
   .db-vehicle-name { font-weight: 700; color: var(--db-fg); font-size: 13px; line-height: 1.2; }
-  .db-vehicle-plat { font-family: ui-monospace,'Courier New',monospace; font-size: 10px; color: var(--db-fg-low); letter-spacing: 0.08em; margin-top: 2px; }
-  .db-badge { font-size: 8.5px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border: 1px solid; white-space: nowrap; }
+  .db-vehicle-plat {
+    font-family: ui-monospace, 'Courier New', monospace;
+    font-size: 10px; color: var(--db-fg-low); letter-spacing: 0.08em; margin-top: 2px;
+  }
+
+  /* badges */
+  .db-badge {
+    font-size: 8.5px; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 4px 10px; border: 1px solid; white-space: nowrap;
+  }
   .db-badge-ok     { color: var(--db-green);  background: var(--db-green-bg);  border-color: var(--db-green-bdr); }
   .db-badge-wait   { color: var(--db-yellow); background: var(--db-yellow-bg); border-color: var(--db-yellow-bdr); }
   .db-badge-reject { color: var(--db-red);    background: var(--db-red-bg);    border-color: var(--db-red-bdr); }
+
   .db-row-action {
     font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--db-fg-low); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;
+    color: var(--db-fg-low); text-decoration: none;
+    display: flex; align-items: center; gap: 5px; transition: color 0.2s;
   }
   .db-row-action:hover { color: var(--db-accent); }
 
   /* empty state */
   .db-empty {
-    padding: 48px 24px; text-align: center;
+    padding: 56px 24px; text-align: center;
     border: 1px dashed var(--db-border); margin-bottom: 40px;
+    background: var(--db-surface);
   }
   .db-empty i { font-size: 32px; color: var(--db-fg-low); margin-bottom: 14px; display: block; }
   .db-empty p { font-size: 13px; color: var(--db-fg-low); margin-bottom: 20px; }
 
-  /* ── BOTTOM GRID ── */
+  /* ── BOTTOM GRID ─────────────────────────────────────────── */
   .db-bottom-grid { display: grid; grid-template-columns: 1fr 320px; gap: 16px; }
 
-  .db-info-panel { border: 1px solid var(--db-border-acc); background: var(--db-accent-glow); }
+  .db-info-panel {
+    border: 1px solid var(--db-border-acc);
+    background: var(--db-surface);
+  }
   .db-info-panel-head {
     padding: 14px 20px; border-bottom: 1px solid var(--db-border-acc);
-    background: rgba(245,158,11,0.05);
-    font-size: 9px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--db-accent); opacity: 0.8;
+    background: var(--db-accent-glow);
+    font-size: 9px; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--db-accent);
   }
-  .db-info-panel-body { padding: 16px 20px; }
+  .db-info-panel-body { padding: 4px 20px 8px; }
   .db-info-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 10px 0; border-bottom: 1px solid var(--db-border); font-size: 12.5px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid var(--db-border); font-size: 12.5px;
   }
   .db-info-row:last-child { border-bottom: none; }
   .db-info-row-key { color: var(--db-fg-low); font-weight: 600; }
-  .db-info-row-val { color: var(--db-fg); font-weight: 700; text-align: right; max-width: 60%; word-break: break-word; }
-
-  /* alert ditolak */
-  .db-alert-reject {
-    display: flex; align-items: flex-start; gap: 12px;
-    background: var(--db-red-bg); border: 1px solid var(--db-red-bdr);
-    padding: 16px 20px; margin-bottom: 24px; font-size: 13px; color: var(--db-red); line-height: 1.6;
+  .db-info-row-val {
+    color: var(--db-fg); font-weight: 700;
+    text-align: right; max-width: 60%; word-break: break-word;
   }
-  .db-alert-reject i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 
-  /* ── RESPONSIVE ── */
+  /* ── RESPONSIVE ──────────────────────────────────────────── */
   @media (max-width: 1100px) { .db-bottom-grid { grid-template-columns: 1fr; } }
   @media (max-width: 992px) {
     .db-nav-inner { padding: 0 20px; }
@@ -378,24 +454,35 @@ $kendaraan_list = $stmt->fetchAll();
 </head>
 <body>
 
-<!-- TOPNAV -->
+<!-- ── TOPNAV ──────────────────────────────────────────────── -->
 <nav class="db-nav">
   <div class="db-nav-inner">
+
     <a href="../index.php" class="db-nav-brand">
-      <div class="db-nav-brand-icon"><i class="fa-solid fa-square-parking"></i></div>
+      <div class="db-nav-brand-icon">
+        <i class="fa-solid fa-square-parking"></i>
+      </div>
       <div>
         <span class="db-nav-brand-name">Stemba Parking</span>
         <span class="db-nav-brand-sub">SMKN 7 Semarang</span>
       </div>
     </a>
+
     <div class="db-nav-center">
-      <a class="db-nav-link active" href="dashboard-user.php"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-      <a class="db-nav-link" href="kendaraan.php"><i class="fa-solid fa-motorcycle"></i> Kendaraan</a>
-      <a class="db-nav-link" href="daftar-kendaraan.php"><i class="fa-solid fa-plus"></i> Daftarkan</a>
+      <a class="db-nav-link active" href="dashboard-user.php">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard
+      </a>
+      <a class="db-nav-link" href="kendaraan.php">
+        <i class="fa-solid fa-motorcycle"></i> Kendaraan
+      </a>
+      <a class="db-nav-link" href="daftar-kendaraan.php">
+        <i class="fa-solid fa-plus"></i> Daftarkan
+      </a>
     </div>
+
     <div class="db-nav-right">
       <?php if ($stats['menunggu'] > 0): ?>
-      <button class="db-notif-btn" title="Ada kendaraan menunggu persetujuan">
+      <button class="db-notif-btn" title="Ada kendaraan menunggu persetujuan" aria-label="Notifikasi">
         <i class="fa-solid fa-bell"></i>
         <span class="db-notif-dot"></span>
       </button>
@@ -413,26 +500,25 @@ $kendaraan_list = $stmt->fetchAll();
         <i class="fa-solid fa-right-from-bracket"></i> Keluar
       </a>
     </div>
+
   </div>
 </nav>
 
-<!-- PAGE -->
+<!-- ── PAGE ────────────────────────────────────────────────── -->
 <main class="db-page">
 
-  <!-- alert jika ada kendaraan ditolak -->
-  <?php
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM kendaraan WHERE user_id = ? AND status = 'ditolak'");
-  $stmt->execute([$uid]);
-  $ada_tolak = $stmt->fetchColumn();
-  if ($ada_tolak > 0):
-  ?>
-  <div class="db-alert-reject">
+  <!-- Alert ditolak -->
+  <?php if ($ada_tolak > 0): ?>
+  <div class="db-alert-reject" data-aos="fade-down" data-aos-duration="500">
     <i class="fa-solid fa-triangle-exclamation"></i>
-    <span>Kamu memiliki <strong><?= $ada_tolak ?> kendaraan yang ditolak</strong>. Periksa kembali dokumen dan daftarkan ulang.</span>
+    <span>
+      Kamu memiliki <strong><?= $ada_tolak ?> kendaraan yang ditolak</strong>.
+      Periksa kembali dokumen dan daftarkan ulang.
+    </span>
   </div>
   <?php endif; ?>
 
-  <!-- WELCOME -->
+  <!-- Welcome -->
   <div class="db-welcome" data-aos="fade-up" data-aos-duration="600">
     <div>
       <span class="db-welcome-eyebrow">Dashboard Siswa</span>
@@ -449,12 +535,12 @@ $kendaraan_list = $stmt->fetchAll();
       </div>
     </div>
     <a class="btn-db-primary" href="daftar-kendaraan.php">
-      <i class="fa-solid fa-plus"></i> Daftarkan Kendaraan
+      Daftarkan Kendaraan
     </a>
   </div>
 
-  <!-- STAT CARDS -->
-  <div class="db-cards" id="db-cards" data-aos="fade-up" data-aos-delay="60" data-aos-duration="700">
+  <!-- Stat Cards -->
+  <div class="db-cards" data-aos="fade-up" data-aos-delay="60" data-aos-duration="700">
 
     <div class="db-card db-card-total">
       <span class="db-card-bgnum" aria-hidden="true"><?= $stats['total'] ?></span>
@@ -488,13 +574,15 @@ $kendaraan_list = $stmt->fetchAll();
 
   </div>
 
-  <!-- VEHICLE TABLE -->
+  <!-- Vehicle Table -->
   <div class="db-section-label" data-aos="fade-up" data-aos-duration="500">
     <div class="db-section-label-left">
       <span class="db-section-tag">Kendaraan</span>
       <span class="db-section-title-sm">Daftar Kendaraan Terdaftar</span>
     </div>
-    <a href="kendaraan.php" class="db-section-action">Lihat Semua <i class="fa-solid fa-arrow-right"></i></a>
+    <a href="kendaraan.php" class="db-section-action">
+      Lihat Semua <i class="fa-solid fa-arrow-right"></i>
+    </a>
   </div>
 
   <?php if (empty($kendaraan_list)): ?>
@@ -502,7 +590,7 @@ $kendaraan_list = $stmt->fetchAll();
     <i class="fa-solid fa-motorcycle"></i>
     <p>Belum ada kendaraan terdaftar. Daftarkan kendaraanmu sekarang!</p>
     <a class="btn-db-primary" href="daftar-kendaraan.php">
-      <i class="fa-solid fa-plus"></i> Daftarkan Sekarang
+      Daftarkan Sekarang
     </a>
   </div>
 
@@ -515,15 +603,26 @@ $kendaraan_list = $stmt->fetchAll();
       <div class="db-th">Status</div>
       <div class="db-th">Aksi</div>
     </div>
+
     <?php foreach ($kendaraan_list as $k):
       $icon = match($k['jenis']) {
-    'motor' => '🏍️',
-    'mobil' => '🚗',
-    'sepeda' => '🚲',  // Tambahkan kondisi untuk sepeda
-    default => '🚗'     // default untuk jenis kendaraan lain
-};
-      $badge_class = match($k['status']) { 'disetujui' => 'db-badge-ok', 'menunggu' => 'db-badge-wait', 'ditolak' => 'db-badge-reject', default => 'db-badge-wait' };
-      $badge_text  = match($k['status']) { 'disetujui' => 'Disetujui', 'menunggu' => 'Menunggu', 'ditolak' => 'Ditolak', default => 'Menunggu' };
+        'motor'  => '🏍️',
+        'mobil'  => '🚗',
+        'sepeda' => '🚲',
+        default  => '🚗'
+      };
+      $badge_class = match($k['status']) {
+        'disetujui' => 'db-badge-ok',
+        'menunggu'  => 'db-badge-wait',
+        'ditolak'   => 'db-badge-reject',
+        default     => 'db-badge-wait'
+      };
+      $badge_text = match($k['status']) {
+        'disetujui' => 'Disetujui',
+        'menunggu'  => 'Menunggu',
+        'ditolak'   => 'Ditolak',
+        default     => 'Menunggu'
+      };
     ?>
     <div class="db-table-row">
       <div class="db-td">
@@ -533,46 +632,61 @@ $kendaraan_list = $stmt->fetchAll();
           <div class="db-vehicle-plat"><?= htmlspecialchars($k['plat']) ?></div>
         </div>
       </div>
-      <div class="db-td"><span style="font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;"><?= htmlspecialchars($k['plat']) ?></span></div>
+      <div class="db-td">
+        <span style="font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;">
+          <?= htmlspecialchars($k['plat']) ?>
+        </span>
+      </div>
       <div class="db-td"><?= ucfirst($k['jenis']) ?></div>
-      <div class="db-td"><span class="db-badge <?= $badge_class ?>"><?= $badge_text ?></span></div>
-      <div class="db-td"><a href="detail-kendaraan.php?id=<?= $k['id'] ?>" class="db-row-action">Detail <i class="fa-solid fa-chevron-right"></i></a></div>
+      <div class="db-td">
+        <span class="db-badge <?= $badge_class ?>"><?= $badge_text ?></span>
+      </div>
+      <div class="db-td">
+        <a href="detail-kendaraan.php?id=<?= $k['id'] ?>" class="db-row-action">
+          Detail <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </div>
     </div>
     <?php endforeach; ?>
   </div>
   <?php endif; ?>
 
-  <!-- INFO AKUN -->
+  <!-- Info Akun -->
   <div class="db-bottom-grid" data-aos="fade-up" data-aos-delay="60" data-aos-duration="700">
-    <div></div><!-- spacer kiri -->
+    <div></div>
     <div class="db-info-panel">
       <div class="db-info-panel-head">Info Akun</div>
       <div class="db-info-panel-body">
-        <div class="db-info-row">
+
         <div class="db-info-row">
           <span class="db-info-row-key">Username</span>
           <span class="db-info-row-val"><?= htmlspecialchars($user['username']) ?></span>
         </div>
+
         <?php if ($user['kelas'] !== '-'): ?>
         <div class="db-info-row">
           <span class="db-info-row-key">Kelas</span>
           <span class="db-info-row-val"><?= htmlspecialchars($user['kelas']) ?></span>
         </div>
         <?php endif; ?>
+
         <?php if ($user['jurusan'] !== '-'): ?>
         <div class="db-info-row">
           <span class="db-info-row-key">Jurusan</span>
           <span class="db-info-row-val"><?= htmlspecialchars($user['jurusan']) ?></span>
         </div>
         <?php endif; ?>
+
         <div class="db-info-row">
           <span class="db-info-row-key">Status</span>
           <span class="db-badge db-badge-ok">Aktif</span>
         </div>
+
         <div class="db-info-row">
           <span class="db-info-row-key">T.A.</span>
           <span class="db-info-row-val">2025 / 2026</span>
         </div>
+
       </div>
     </div>
   </div>
@@ -586,6 +700,7 @@ $kendaraan_list = $stmt->fetchAll();
   var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   AOS.init({ once: true, offset: 40, easing: 'ease-out-quart', duration: 650 });
 
+  /* counter animation */
   var counters = document.querySelectorAll('.count');
   function runCount(el) {
     var target = +(el.dataset.target || 0);
@@ -599,7 +714,9 @@ $kendaraan_list = $stmt->fetchAll();
   }
   if ('IntersectionObserver' in window && !noMotion) {
     var obs = new IntersectionObserver(function (entries, o) {
-      entries.forEach(function (en) { if (en.isIntersecting) { runCount(en.target); o.unobserve(en.target); } });
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { runCount(en.target); o.unobserve(en.target); }
+      });
     }, { threshold: 0.5 });
     counters.forEach(function (el) { obs.observe(el); });
   } else {

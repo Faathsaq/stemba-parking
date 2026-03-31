@@ -6,13 +6,13 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-$error = '';
+$error   = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $username         = trim($_POST['username']);
+    $email            = trim($_POST['email']);
+    $password         = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
 
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
                 $stmt->execute([$username, $email, $hashed_password]);
-
                 $success = "Registrasi berhasil! Silakan login.";
             }
         } catch (PDOException $e) {
@@ -49,44 +48,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar — Stemba Parking · SMKN 7 Semarang</title>
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <style>
         /* ============================================================
-           GLOBAL VARIABLES - MENGIKUTI NAVBAR
+           GLOBAL VARIABLES — CREAMY LATTE (konsisten dengan navbar.php)
            ============================================================ */
         :root {
-            --font-serif: 'Instrument Serif', Georgia, serif;
-            --font-sans: 'Outfit', sans-serif;
-            --accent: #f59e0b;
-            --accent-dim: rgba(245,158,11,0.15);
-            --accent-glow: rgba(245,158,11,0.08);
-            --bg-glass: rgba(13,13,13,0.62);
-            --border: rgba(255,255,255,0.07);
-            --border-acc: rgba(245,158,11,0.28);
-            --fg: #ffffff;
-            --fg-mid: rgba(255,255,255,0.55);
-            --fg-low: rgba(255,255,255,0.22);
-            --blur: 18px;
-            --nav-h: 68px;
-            --bg-dark: #0d0d0d;
+            --font-serif:   'Instrument Serif', Georgia, serif;
+            --font-sans:    'Outfit', sans-serif;
+
+            /* Accent: latte/caramel warm brown — sama persis navbar.php */
+            --accent:       #B8935A;
+            --accent-light: #C8A876;
+            --accent-dim:   rgba(160,120,58,0.10);
+            --accent-glow:  rgba(160,120,58,0.06);
+
+            /* Glass: putih susu translucent */
+            --bg-glass:     rgba(255,253,245,0.75);
+            --bg-base:      #FFFCF8;
+
+            /* Borders */
+            --border:       rgba(200,180,140,0.15);
+            --border-acc:   rgba(200,180,140,0.25);
+
+            /* Foreground */
+            --fg:           #3D2E1A;
+            --fg-mid:       rgba(61,46,26,0.72); /* dinaikin dari 0.55 */
+            --fg-low:       rgba(61,46,26,0.25);
+
+            /* Cream tones */
+            --cream-100:    #FFFCF8;
+            --cream-200:    #FAF4EA;
+            --cream-300:    #F0E5D0;
+            --latte-100:    #D4A96A;
+            --latte-200:    #C09050;
+            --latte-300:    #B8823A;
+
+            /* Navbar vars — wajib didefinisikan di sini */
+            --nav-h:        68px;
+            --blur:         24px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-base);
             color: var(--fg);
             font-family: var(--font-sans);
             min-height: 100vh;
@@ -94,21 +108,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             overflow-x: hidden;
         }
 
-        /* Noise Texture */
+        /* Warm paper texture pada body */
         body::before {
             content: '';
             position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            background-size: 160px 160px;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
             opacity: 0.5;
         }
 
-        /* Amber Glows */
+        /* Warm cream glows */
         .glow-top {
             position: fixed; z-index: -1; pointer-events: none;
             top: -200px; left: 50%; transform: translateX(-50%);
             width: 900px; height: 500px; border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(245,158,11,0.09) 0%, transparent 65%);
+            background: radial-gradient(ellipse, rgba(184,147,90,0.10) 0%, transparent 65%);
             filter: blur(40px);
         }
 
@@ -116,14 +130,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             position: fixed; z-index: -1; pointer-events: none;
             bottom: 10%; right: -200px;
             width: 600px; height: 600px; border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(245,158,11,0.05) 0%, transparent 65%);
+            background: radial-gradient(ellipse, rgba(184,147,90,0.06) 0%, transparent 65%);
             filter: blur(60px);
             animation: drift 24s ease-in-out infinite alternate;
         }
 
-        @keyframes drift { 
-            from { transform: translate(0, 0); } 
-            to { transform: translate(-30px, 40px); } 
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to   { transform: translate(-30px, 40px); }
         }
 
         /* Issue Watermark */
@@ -134,132 +148,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-size: clamp(260px, 35vw, 520px);
             font-weight: 400; line-height: 0.85;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(245,158,11,0.06);
+            -webkit-text-stroke: 1px rgba(160,120,58,0.06);
             pointer-events: none; user-select: none; letter-spacing: -0.04em;
         }
 
-        /* Scan Line */
+        /* Scan Line — warm amber tipis */
         .scanline {
             position: fixed; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(245,158,11,0.12), transparent);
+            background: linear-gradient(90deg, transparent, rgba(184,147,90,0.14), transparent);
             z-index: 2; pointer-events: none;
-            animation: scan 8s ease-in-out infinite;
+            animation: scan 10s ease-in-out infinite;
         }
 
         @keyframes scan {
             0%   { top: -2px; opacity: 0; }
             5%   { opacity: 1; }
-            95%  { opacity: 0.6; }
+            95%  { opacity: 0.5; }
             100% { top: 100%; opacity: 0; }
         }
 
         /* ============================================================
-           NAVBAR - LANGSUNG IMPORT DARI NAVBAR.PHP
-           ============================================================ */
-        .nav-glass {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-            height: var(--nav-h);
-            background: var(--bg-glass);
-            backdrop-filter: blur(var(--blur)) saturate(160%);
-            -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
-            border-bottom: 1px solid var(--border);
-            font-family: var(--font-sans);
-            transition: background 0.3s, box-shadow 0.3s;
-        }
-
-        .nav-glass::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(245,158,11,0.45) 30%,
-                rgba(245,158,11,0.7)  50%,
-                rgba(245,158,11,0.45) 70%,
-                transparent 100%);
-            pointer-events: none;
-        }
-
-        .nav-glass::after {
-            content: '';
-            position: absolute; inset: 0; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            background-size: 160px 160px; opacity: 0.5; z-index: 0;
-        }
-
-        .nav-glass.nav-scrolled {
-            background: rgba(10,10,10,0.80);
-            box-shadow: 0 1px 0 var(--border), 0 8px 32px rgba(0,0,0,0.45), 0 2px 12px rgba(245,158,11,0.04);
-        }
-
-        .nav-inner {
-            position: relative; z-index: 1;
-            max-width: 1280px; margin: 0 auto;
-            padding: 0 24px;
-            height: var(--nav-h);
-            display: flex; align-items: center; gap: 0;
-        }
-
-        .nav-brand {
-            display: flex; align-items: center; gap: 12px;
-            text-decoration: none; flex-shrink: 0; margin-right: 48px;
-            position: relative;
-        }
-
-        .nav-brand-logo {
-            width: 38px; height: 38px; border-radius: 4px;
-            border: 1px solid var(--border-acc);
-            background: var(--accent-glow);
-            overflow: hidden; display: flex; align-items: center; justify-content: center;
-            transition: border-color 0.2s, background 0.2s;
-        }
-
-        .nav-brand-logo img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            filter: brightness(0) invert(1);
-        }
-
-        .nav-brand:hover .nav-brand-logo {
-            border-color: var(--accent); background: var(--accent-dim);
-        }
-
-        .nav-brand-text { line-height: 1.1; }
-
-        .nav-brand-name {
-            display: block;
-            font-size: 13px; font-weight: 800; letter-spacing: 0.06em;
-            text-transform: uppercase; color: var(--fg);
-        }
-
-        .nav-brand-sub {
-            display: block;
-            font-size: 9.5px; font-weight: 700; letter-spacing: 0.18em;
-            text-transform: uppercase; color: var(--accent);
-        }
-
-        .nav-btn-ghost {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 8px 18px; border-radius: 3px;
-            font-family: var(--font-sans); font-size: 11.5px; font-weight: 700;
-            letter-spacing: 0.08em; text-transform: uppercase;
-            color: var(--fg-mid); text-decoration: none;
-            border: 1px solid var(--border);
-            background: transparent;
-            transition: color 0.2s, border-color 0.2s, background 0.2s;
-        }
-
-        .nav-btn-ghost:hover {
-            color: var(--fg); border-color: rgba(255,255,255,0.18);
-            background: rgba(255,255,255,0.04); text-decoration: none;
-        }
-
-        .nav-btn-ghost i { font-size: 10px; }
-
-        .spacer {
-            height: var(--nav-h);
-        }
-
-        /* ============================================================
-           REGISTER CONTAINER
+           AUTH CONTAINER
            ============================================================ */
         .auth-container {
             min-height: 100vh;
@@ -275,33 +184,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             max-width: 480px;
             width: 100%;
             background: var(--bg-glass);
-            backdrop-filter: blur(var(--blur)) saturate(160%);
-            -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+            backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+            -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
             border: 1px solid var(--border);
-            border-radius: 4px;
+            border-radius: 6px;
             position: relative;
-            transition: all 0.3s ease;
             overflow: hidden;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.9),
+                0 4px 24px rgba(140,100,50,0.08);
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .auth-card:hover {
             border-color: var(--border-acc);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0,0,0,0.2);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.95),
+                0 20px 48px rgba(120,80,30,0.12),
+                0 4px 16px rgba(120,80,30,0.06);
         }
 
-        /* Top accent line */
+        /* Top caramel glint */
         .auth-card::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg,
                 transparent 0%,
-                rgba(245,158,11,0.45) 30%,
-                rgba(245,158,11,0.7) 50%,
-                rgba(245,158,11,0.45) 70%,
+                rgba(160,120,58,0.35) 25%,
+                rgba(198,154,92,0.65) 50%,
+                rgba(160,120,58,0.35) 75%,
                 transparent 100%);
             pointer-events: none;
         }
@@ -310,18 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .auth-header {
             padding: 32px 32px 16px;
             border-bottom: 1px solid var(--border);
-            position: relative;
             text-align: center;
-        }
-
-        .auth-issue {
-            font-family: var(--font-serif);
-            font-size: 11px;
-            color: var(--accent);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 12px;
+            background: linear-gradient(180deg, rgba(240,229,208,0.25) 0%, transparent 100%);
         }
 
         .auth-header h3 {
@@ -335,20 +236,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .auth-header p {
             color: var(--fg-mid);
-            font-size: 14px;
+            font-size: 13px;
             margin: 0;
             letter-spacing: 0.02em;
         }
 
         /* Card Body */
-        .auth-body {
-            padding: 32px;
-        }
+        .auth-body { padding: 32px; }
 
         /* Form Elements */
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-label {
             font-size: 10px;
@@ -362,14 +259,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .input-group {
             border: 1px solid var(--border);
-            transition: all 0.22s ease;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 3px;
+            transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+            background: rgba(255,252,248,0.4);
+            border-radius: 4px;
         }
 
         .input-group:focus-within {
             border-color: var(--border-acc);
             background: var(--accent-glow);
+            box-shadow: 0 0 0 3px rgba(160,120,58,0.08);
         }
 
         .input-group-text {
@@ -397,88 +295,102 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .form-control::placeholder {
             color: var(--fg-low);
             font-size: 13px;
-            font-weight: 400;
             font-style: italic;
         }
 
-        /* Error Message */
+        /* Error Message — disesuaikan ke light theme */
         .error-message {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: rgba(185,60,60,0.07);
+            border: 1px solid rgba(185,60,60,0.20);
+            color: rgba(185,60,60,0.85);
             padding: 14px 16px;
             margin-bottom: 24px;
             font-size: 12px;
             font-weight: 600;
             letter-spacing: 0.02em;
-            border-radius: 3px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .error-message i {
-            color: #fca5a5;
+            color: rgba(185,60,60,0.85);
             font-size: 14px;
+            flex-shrink: 0;
         }
 
-        /* Success Message */
+        /* Success Message — warm green, cocok di light theme */
         .success-message {
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            color: #6ee7b7;
+            background: rgba(60,140,80,0.07);
+            border: 1px solid rgba(60,140,80,0.20);
+            color: rgba(40,110,60,0.90);
             padding: 14px 16px;
             margin-bottom: 24px;
             font-size: 12px;
             font-weight: 600;
             letter-spacing: 0.02em;
-            border-radius: 3px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .success-message i {
-            color: #6ee7b7;
+            color: rgba(40,110,60,0.90);
             font-size: 14px;
+            flex-shrink: 0;
         }
 
-        /* Register Button */
+        /* Register Button — latte gradient */
         .btn-register {
             width: 100%;
-            background: var(--accent);
-            color: #0d0d0d;
-            border: none;
+            background: linear-gradient(135deg, var(--latte-100) 0%, var(--latte-200) 60%, var(--latte-300) 100%);
+            color: #fff;
+            border: 1px solid rgba(120,80,25,0.20);
             padding: 14px 24px;
             font-weight: 800;
             font-size: 12px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            border-radius: 3px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            transition: all 0.22s ease;
+            transition: transform 0.22s, box-shadow 0.22s, filter 0.22s;
             margin-top: 16px;
             cursor: pointer;
             font-family: var(--font-sans);
+            box-shadow: 0 2px 10px rgba(140,100,50,0.20), inset 0 1px 0 rgba(255,255,255,0.18);
         }
 
         .btn-register:hover {
-            background: #fbbf24;
+            color: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(245,158,11,0.28);
-            color: #0d0d0d;
+            filter: brightness(1.08);
+            box-shadow: 0 8px 28px rgba(140,100,50,0.30), inset 0 1px 0 rgba(255,255,255,0.22);
         }
 
         .btn-register i {
             font-size: 11px;
-            transition: transform 0.22s ease;
+            transition: transform 0.22s;
         }
 
-        .btn-register:hover i {
-            transform: translateX(4px);
+        .btn-register:hover i { transform: translateX(4px); }
+
+        /* Password Hint */
+        .password-hint {
+            font-size: 9px;
+            color: var(--fg-low);
+            margin-top: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .password-hint i {
+            color: var(--accent);
+            margin-right: 4px;
+            font-size: 8px;
         }
 
         /* Auth Links */
@@ -499,44 +411,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: var(--accent);
             text-decoration: none;
             font-weight: 700;
-            letter-spacing: 0.02em;
-            transition: all 0.22s ease;
+            transition: color 0.2s;
             position: relative;
         }
 
         .auth-links a::after {
             content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 1px;
+            position: absolute; bottom: -2px; left: 0; right: 0; height: 1px;
             background: var(--accent);
             transform: scaleX(0);
-            transition: transform 0.22s ease;
+            transition: transform 0.22s;
         }
 
-        .auth-links a:hover {
-            color: #fbbf24;
-        }
-
-        .auth-links a:hover::after {
-            transform: scaleX(1);
-        }
-
-        /* Password Hint */
-        .password-hint {
-            font-size: 9px;
-            color: var(--fg-low);
-            margin-top: 6px;
-            letter-spacing: 0.02em;
-        }
-
-        .password-hint i {
-            color: var(--accent);
-            margin-right: 4px;
-            font-size: 8px;
-        }
+        .auth-links a:hover { color: var(--accent-light); }
+        .auth-links a:hover::after { transform: scaleX(1); }
 
         /* Bottom Bar */
         .auth-bottom-bar {
@@ -552,36 +440,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-transform: uppercase;
         }
 
-        .auth-bottom-bar i {
-            font-size: 4px;
-            color: var(--accent);
-        }
+        .auth-bottom-bar i { font-size: 4px; color: var(--accent); }
 
         /* Responsive */
         @media (max-width: 576px) {
-            .auth-header h3 {
-                font-size: 36px;
-            }
-            
-            .auth-body {
-                padding: 24px;
-            }
-            
-            .auth-header {
-                padding: 24px 24px 12px;
-            }
-            
-            .auth-card {
-                margin: 0 16px;
-            }
+            .auth-header h3 { font-size: 36px; }
+            .auth-body { padding: 24px; }
+            .auth-header { padding: 24px 24px 12px; }
         }
 
-        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            .glow-side,
-            .scanline,
-            .btn-register:hover,
-            .auth-card:hover {
+            .glow-side, .scanline,
+            .btn-register:hover, .auth-card:hover {
                 animation: none !important;
                 transform: none !important;
             }
@@ -597,92 +467,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="scanline" aria-hidden="true"></div>
     <div class="issue-watermark" aria-hidden="true">03</div>
 
-    <!-- Navigation - Sama persis dengan navbar.php -->
-    <nav class="nav-glass" id="mainNav">
-        <div class="nav-inner">
-            <!-- Brand -->
-            <a class="nav-brand" href="index.php">
-                <div class="nav-brand-logo">
-                    <img src="assets/img/logo-white.png" alt="Logo SMKN 7">
-                </div>
-                <div class="nav-brand-text">
-                    <span class="nav-brand-name">SMK Negeri 7</span>
-                    <span class="nav-brand-sub">Stemba Parking</span>
-                </div>
-            </a>
-
-            <!-- Empty nav-links for spacing -->
-            <div style="flex: 1;"></div>
-
-            <!-- Back button sebagai ghost btn -->
-            <a href="index.php" class="nav-btn-ghost">
-                <i class="fas fa-arrow-left"></i>
-                Kembali
-            </a>
-        </div>
-    </nav>
-
-    <!-- Spacer -->
-    <div class="spacer" aria-hidden="true"></div>
+    <!-- Navbar — pakai include, tidak duplikasi CSS -->
+    <?php include 'includes/navbar.php'; ?>
 
     <!-- Register Form -->
     <section class="auth-container">
         <div class="auth-card" data-aos="fade-up" data-aos-duration="800">
-            
+
             <div class="auth-header">
                 <h3>Daftar</h3>
                 <p>Buat akun Stemba Parking baru</p>
             </div>
 
             <div class="auth-body">
-                
+
                 <?php if (!empty($error)): ?>
                     <div class="error-message" data-aos="fade-in" data-aos-duration="300">
                         <i class="fas fa-exclamation-circle"></i>
-                        <?php echo $error; ?>
+                        <?php echo htmlspecialchars($error); ?>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($success)): ?>
                     <div class="success-message" data-aos="fade-in" data-aos-duration="300">
                         <i class="fas fa-check-circle"></i>
-                        <?php echo $success; ?>
-                        <br>
-                        
+                        <?php echo htmlspecialchars($success); ?>
                     </div>
                 <?php endif; ?>
 
                 <form method="POST" action="">
                     <div class="form-group" data-aos="fade-up" data-aos-delay="100">
-                        <label for="username" class="form-label">
-                            Username
-                        </label>
+                        <label for="username" class="form-label">Username</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-user"></i>
                             </span>
                             <input type="text" class="form-control" id="username" name="username"
-                                placeholder="contoh: johndoe" required>
+                                placeholder="contoh: johndoe" required
+                                value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
                         </div>
                     </div>
 
                     <div class="form-group" data-aos="fade-up" data-aos-delay="120">
-                        <label for="email" class="form-label">
-                            Email
-                        </label>
+                        <label for="email" class="form-label">Email</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-envelope"></i>
                             </span>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="contoh: john@example.com" required>
+                                placeholder="contoh: john@example.com" required
+                                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                         </div>
                     </div>
 
                     <div class="form-group" data-aos="fade-up" data-aos-delay="140">
-                        <label for="password" class="form-label">
-                            Password
-                        </label>
+                        <label for="password" class="form-label">Password</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-lock"></i>
@@ -696,10 +535,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="form-group" data-aos="fade-up" data-aos-delay="160">
-                        <label for="confirm_password" class="form-label">
-                            Konfirmasi Password
-                        </label>
-                        <div class="input-group">
+                        <label for="confirm_password" class="form-label">Konfirmasi Password</label>
+                        <div class="input-group" id="confirmGroup">
                             <span class="input-group-text">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -723,6 +560,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <i class="fas fa-circle"></i>
                     <span>KENDARAAN SISWA</span>
                 </div>
+
             </div>
         </div>
     </section>
@@ -730,69 +568,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script>
-        (function() {
+        (function () {
             'use strict';
-            
+
             // Initialize AOS
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 if (typeof AOS !== 'undefined') {
-                    AOS.init({
-                        once: true,
-                        offset: 20,
-                        easing: 'ease-out-quart',
-                        duration: 700
-                    });
+                    AOS.init({ once: true, offset: 20, easing: 'ease-out-quart', duration: 700 });
                 }
             });
-
-            // Scroll effect untuk navbar (sama dengan navbar.php)
-            const nav = document.getElementById('mainNav');
-            let ticking = false;
-            
-            window.addEventListener('scroll', function () {
-                if (!ticking) {
-                    requestAnimationFrame(function () {
-                        nav.classList.toggle('nav-scrolled', window.scrollY > 30);
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
 
             // Parallax untuk issue watermark
             const issue = document.querySelector('.issue-watermark');
             if (issue) {
-                let tickingParallax = false;
+                let ticking = false;
                 window.addEventListener('scroll', () => {
-                    if (!tickingParallax) {
+                    if (!ticking) {
                         requestAnimationFrame(() => {
                             issue.style.transform = `translateY(${window.scrollY * 0.05}px)`;
-                            tickingParallax = false;
+                            ticking = false;
                         });
-                        tickingParallax = true;
+                        ticking = true;
                     }
                 }, { passive: true });
             }
 
-            // Real-time password match validation (optional)
-            const password = document.getElementById('password');
+            // Real-time password match validation
+            const password        = document.getElementById('password');
             const confirmPassword = document.getElementById('confirm_password');
-            
-            if (password && confirmPassword) {
+            const confirmGroup    = document.getElementById('confirmGroup');
+
+            if (password && confirmPassword && confirmGroup) {
                 function validatePassword() {
-                    if (confirmPassword.value.length > 0) {
-                        if (password.value === confirmPassword.value) {
-                            confirmPassword.style.borderBottom = '2px solid #10b981';
-                        } else {
-                            confirmPassword.style.borderBottom = '2px solid #ef4444';
-                        }
+                    if (confirmPassword.value.length === 0) {
+                        confirmGroup.style.borderColor = 'var(--border)';
+                        return;
+                    }
+                    if (password.value === confirmPassword.value) {
+                        confirmGroup.style.borderColor = 'rgba(60,140,80,0.45)';
                     } else {
-                        confirmPassword.style.borderBottom = 'none';
+                        confirmGroup.style.borderColor = 'rgba(185,60,60,0.45)';
                     }
                 }
-
                 password.addEventListener('keyup', validatePassword);
                 confirmPassword.addEventListener('keyup', validatePassword);
             }
@@ -800,4 +619,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </script>
 
 </body>
-</html> 
+</html>

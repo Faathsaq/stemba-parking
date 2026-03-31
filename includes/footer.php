@@ -1,34 +1,35 @@
 <?php
-// sections/footer.php
+// sections/footer.php — v2 CREAM EDITION
 // FRAGMENT: jangan tambahkan <html>, <head>, atau <body> di file ini.
 // Footer — Stemba Parking · SMKN 7 Semarang
-// Konsep: Medium · Dark + Amber · Multi kolom · Logo + Sosmed
 // Dependensi: Bootstrap 5, AOS, Font Awesome 6, Google Fonts
 ?>
 
 <style>
 /* ============================================================
-   FOOTER — MEDIUM · DARK + AMBER · MULTI COLUMN
+   FOOTER — CREAM + ONYX + BLUE SLATE
    ============================================================ */
 
 .ft {
-  background: #080808;
+  background: #f5f2ea;
   font-family: var(--font-sans, 'Outfit', sans-serif);
   position: relative;
-  --ft-accent:      #f59e0b;
-  --ft-accent-dim:  rgba(245,158,11,0.15);
-  --ft-accent-glow: rgba(245,158,11,0.06);
-  --ft-border:      rgba(255,255,255,0.06);
-  --ft-border-acc:  rgba(245,158,11,0.24);
-  --ft-fg:          #ffffff;
-  --ft-fg-mid:      rgba(255,255,255,0.44);
-  --ft-fg-low:      rgba(255,255,255,0.18);
+  --ft-accent:      #536878;                    /* Blue Slate */
+  --ft-accent-dim:  rgba(83,104,120,0.15);
+  --ft-accent-glow: rgba(83,104,120,0.06);
+  --ft-bg:          #f5f2ea;                    /* Warm Cream */
+  --ft-fg:          #0a0a0a;                    /* Onyx */
+  --ft-fg-mid:      rgba(10,10,10,0.55);
+  --ft-fg-low:      rgba(10,10,10,0.30);
+  --ft-green:       #488c60;                    /* Sage Green */
+  --ft-border:      rgba(10,10,10,0.08);
+  --ft-border-acc:  rgba(83,104,120,0.22);
 }
 
-/* ── TOP AMBER LINE ──────────────────────────────────────────── */
+/* ── TOP SLATE LINE ──────────────────────────────────────────── */
 .ft::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(83,104,120,0.35), transparent);
 }
 
 /* ── MAIN FOOTER BODY ────────────────────────────────────────── */
@@ -40,7 +41,6 @@
   border-bottom: 1px solid var(--ft-border);
 }
 
-/* column dividers */
 .ft-col {
   padding: 0 48px;
   border-right: 1px solid var(--ft-border);
@@ -49,26 +49,20 @@
 .ft-col:last-child  { border-right: none; padding-right: 0; }
 
 /* ── COL 1 — brand ───────────────────────────────────────────── */
-.ft-brand {}
-
-/* logo block */
 .ft-logo {
   display: flex; align-items: center; gap: 14px;
   margin-bottom: 20px; text-decoration: none;
 }
 .ft-logo-img {
   width: 44px; height: 44px; object-fit: contain;
-  /* shown when image loads */
 }
 .ft-logo-fallback {
   width: 44px; height: 44px; flex-shrink: 0;
   border: 1px solid var(--ft-border-acc);
   background: var(--ft-accent-glow);
   display: flex; align-items: center; justify-content: center;
-  /* shown when image is missing / as overlay */
 }
-.ft-logo-fallback i { font-size: 18px; color: var(--ft-accent); opacity: 0.8; }
-.ft-logo-text {}
+.ft-logo-fallback i { font-size: 18px; color: var(--ft-accent); }
 .ft-logo-name {
   font-family: var(--font-serif, 'Instrument Serif', serif);
   font-size: 18px; font-weight: 400; color: var(--ft-fg);
@@ -84,7 +78,7 @@
   margin: 0 0 28px; max-width: 34ch;
 }
 
-/* sosmed icons */
+/* sosmed */
 .ft-socials { display: flex; gap: 8px; }
 .ft-social {
   width: 36px; height: 36px;
@@ -105,14 +99,13 @@
 /* ── SHARED COL STYLE ────────────────────────────────────────── */
 .ft-col-label {
   font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ft-accent); opacity: 0.6;
+  color: var(--ft-accent);
   padding-bottom: 16px; border-bottom: 1px solid var(--ft-border);
   margin-bottom: 20px; display: block;
 }
 
 /* nav links */
 .ft-nav { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; }
-.ft-nav li {}
 .ft-nav a {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 0;
@@ -129,7 +122,7 @@
 .ft-nav a:hover { color: var(--ft-fg); padding-left: 4px; }
 .ft-nav a:hover::before { width: 12px; }
 
-/* ── COL 4 — kontak info ─────────────────────────────────────── */
+/* ── COL 4 — kontak ──────────────────────────────────────────── */
 .ft-contact-item {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 12px 0; border-bottom: 1px solid var(--ft-border);
@@ -141,15 +134,14 @@
   display: flex; align-items: center; justify-content: center;
   margin-top: 1px;
 }
-.ft-contact-icon i { font-size: 10px; color: var(--ft-accent); opacity: 0.7; }
-.ft-contact-info {}
+.ft-contact-icon i { font-size: 10px; color: var(--ft-accent); }
 .ft-contact-label {
   font-size: 8.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--ft-fg-low); display: block; margin-bottom: 3px;
 }
 .ft-contact-val {
   font-size: 12.5px; font-weight: 600; color: var(--ft-fg-mid);
-  word-break: break-all; line-height: 1.4;
+  overflow-wrap: break-word; line-height: 1.5;
 }
 
 /* ── BOTTOM BAR ──────────────────────────────────────────────── */
@@ -162,8 +154,8 @@
   font-size: 11px; color: var(--ft-fg-low); line-height: 1.6;
 }
 .ft-copyright strong { color: var(--ft-fg-mid); font-weight: 600; }
-.ft-copyright a { color: var(--ft-accent); opacity: 0.7; text-decoration: none; }
-.ft-copyright a:hover { opacity: 1; }
+.ft-copyright a { color: var(--ft-accent); text-decoration: none; }
+.ft-copyright a:hover { opacity: 0.75; }
 
 .ft-badge {
   display: inline-flex; align-items: center; gap: 7px;
@@ -171,7 +163,7 @@
   color: var(--ft-fg-low); padding: 5px 12px;
   border: 1px solid var(--ft-border);
 }
-.ft-badge i { font-size: 8px; color: var(--ft-accent); opacity: 0.6; }
+.ft-badge i { font-size: 8px; color: var(--ft-accent); }
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 @media (max-width: 1100px) {
@@ -189,7 +181,6 @@
   .ft-bottom { flex-direction: column; align-items: flex-start; }
 }
 
-/* ── REDUCED MOTION ──────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .ft-social:hover { transform: none !important; }
 }
@@ -203,16 +194,13 @@
 
       <!-- COL 1 — Brand -->
       <div class="ft-col ft-brand">
-
         <a href="#beranda" class="ft-logo" aria-label="Stemba Parking — kembali ke atas">
-          <!-- logo gambar — ganti src dengan path logo asli -->
           <img
-            src="assets/img/logo-smkn7.png"
+            src="assets/img/3.png"
             alt="Logo SMKN 7 Semarang"
             class="ft-logo-img"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
           >
-          <!-- fallback jika gambar tidak ada -->
           <div class="ft-logo-fallback" style="display:none;" aria-hidden="true">
             <i class="fa-solid fa-school"></i>
           </div>
@@ -227,19 +215,17 @@
           untuk lingkungan SMKN 7 Semarang.
         </p>
 
-        <!-- sosmed -->
         <div class="ft-socials" aria-label="Media sosial sekolah">
-          <a class="ft-social" href="#" aria-label="Instagram SMKN 7 Semarang" target="_blank" rel="noopener">
+          <a class="ft-social" href="https://www.instagram.com/smknegeri7semarang/" aria-label="Instagram SMKN 7 Semarang" target="_blank" rel="noopener">
             <i class="fa-brands fa-instagram" aria-hidden="true"></i>
           </a>
-          <a class="ft-social" href="#" aria-label="TikTok SMKN 7 Semarang" target="_blank" rel="noopener">
+          <a class="ft-social" href="https://www.tiktok.com/@smknegeri7semarang" aria-label="TikTok SMKN 7 Semarang" target="_blank" rel="noopener">
             <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
           </a>
-          <a class="ft-social" href="#" aria-label="YouTube SMKN 7 Semarang" target="_blank" rel="noopener">
+          <a class="ft-social" href="https://www.youtube.com/@SMKNegeri7Semarang" aria-label="YouTube SMKN 7 Semarang" target="_blank" rel="noopener">
             <i class="fa-brands fa-youtube" aria-hidden="true"></i>
           </a>
         </div>
-
       </div>
 
       <!-- COL 2 — Navigasi -->
@@ -282,7 +268,7 @@
           <div class="ft-contact-icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></div>
           <div class="ft-contact-info">
             <span class="ft-contact-label">Alamat</span>
-            <span class="ft-contact-val">Jl. Simpang Lima, Semarang, Jawa Tengah</span>
+            <span class="ft-contact-val">JL Simpang Lima, Mugassari, Kec. Semarang Selatan, Kota Semarang, Jawa Tengah.</span>
           </div>
         </div>
 
@@ -293,7 +279,6 @@
             <span class="ft-contact-val">Sen – Jum · 07.00 – 15.00 WIB</span>
           </div>
         </div>
-
       </div>
 
     </div><!-- /.ft-body -->
@@ -306,10 +291,6 @@
         <strong><a href="https://smkn7semarang.sch.id" target="_blank" rel="noopener">SMKN 7 Semarang</a></strong>
         &nbsp;·&nbsp; Dikembangkan oleh MPK &amp; OSIS
       </p>
-      <span class="ft-badge">
-        <i class="fa-solid fa-circle" aria-hidden="true"></i>
-        Stemba Parking v1.0
-      </span>
     </div>
 
   </div>
