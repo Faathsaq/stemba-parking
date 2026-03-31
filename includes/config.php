@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-<<<<<<< HEAD
 $host    = 'localhost';
 $db      = 'stembaaspirasi';
 $user    = 'root';
@@ -17,12 +16,6 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
-=======
-$host = 'localhost';
-$dbname = 'stemba_parking';
-$username = 'stemba_user';
-$password = 'stemba123';
->>>>>>> 259f585721ac34a9cbd5c11af5e25d1d037ca953
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
